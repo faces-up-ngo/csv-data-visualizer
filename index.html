@@ -209,6 +209,9 @@
             doc.setFontSize(16);
             doc.text(`Student: ${document.getElementById('studentSelect').value}`, 105, 30, null, null, 'center');
 
+            // Hide buttonsContainer and show chartsContainer
+            chartsContainer.querySelectorAll('button').forEach(btn => btn.style.display = 'none');
+
             html2canvas(chartsContainer).then(canvas => {
                 const imgData = canvas.toDataURL('image/png');
                 const imgWidth = 210; // A4 width in mm
@@ -229,6 +232,7 @@
                 }
 
                 doc.save('exported-content.pdf');
+                chartsContainer.querySelectorAll('button').forEach(btn => btn.style.display = 'block');
             });
         });
 
@@ -352,6 +356,40 @@
             });
 
             const canvasContainer = document.createElement('div');
+
+            const btnsContainer = document.createElement('div');
+            btnsContainer.style.padding = '10px';
+            btnsContainer.style.display = 'flex';
+            btnsContainer.style.justifyContent = 'space-between';
+
+            const delBtn = document.createElement('button');
+            delBtn.innerText = 'Delete';
+            delBtn.style.width = 'fit-content';
+            delBtn.addEventListener('click', () => {
+                canvasContainer.remove();
+            });
+
+            const increaseSizeBtn = document.createElement('button');
+            increaseSizeBtn.innerText = 'Increase Size';
+            increaseSizeBtn.style.width = 'fit-content';
+            increaseSizeBtn.addEventListener('click', () => {
+                canvasContainer.style.width = '75%';
+            });
+
+            const decreaseSizeBtn = document.createElement('button');
+            decreaseSizeBtn.innerText = 'Decrease Size';
+            decreaseSizeBtn.style.width = 'fit-content';
+            decreaseSizeBtn.addEventListener('click', () => {
+                canvasContainer.style.width = '50%';
+            });
+
+            btnsContainer.appendChild(increaseSizeBtn);
+            btnsContainer.appendChild(decreaseSizeBtn);
+            btnsContainer.appendChild(delBtn);
+
+            canvasContainer.appendChild(btnsContainer);
+
+
             canvasContainer.classList.add('resizable-container');
             const canvas = document.createElement('canvas');
 
