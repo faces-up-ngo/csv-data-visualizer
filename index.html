@@ -141,13 +141,12 @@
             </select>
         </div>
 
-        <div id="xAxisContainer" class="selects" style="display: none;">
-            <label for="xAxisSelect">X-Axis</label>
-            <select id="xAxisSelect"></select>
+        <div id="optionsContainer" style="display: flex; flex-direction: column; gap: 0.5rem; padding: 1rem;">
         </div>
-        <div id="yAxisContainer" class="selects" style="display: none;">
-            <label for="yAxisSelect">Y-Axis</label>
-            <select id="yAxisSelect"></select>
+
+        <div id="axisContainer" class="selects" style="display: none;">
+            <label>Axis</label>
+            <select></select>
         </div>
         <button id="generateBtn">Generate Chart</button>
         <div id="chartsContainer" class="charts-container">
@@ -256,38 +255,101 @@
                 });
             });
 
+        function buildSelectOption(index, value) {
+            const option = document.createElement('option');
+            option.value = index;
+            option.text = column;
+            return option;
+        }
+
+        function buildSelect(name, options, deleteBtn = false) {
+            const axisContainer = document.createElement('div');
+            const label = document.createElement('label');
+            label.innerText = name;
+
+            const select = document.createElement('select');
+            select.id = `${name.toLowerCase()}Select`;
+
+            options.forEach(option => {
+                select.appendChild(option);
+            });
+
+            axisContainer.appendChild(label);
+            axisContainer.appendChild(select);
+
+            if (deleteBtn) {
+                const delBtn = document.createElement('button');
+                delBtn.innerText = 'Delete';
+                delBtn.style.marginLeft = '10px';
+                delBtn.addEventListener('click', () => {
+                    axisContainer.remove();
+                });
+                axisContainer.appendChild(delBtn);
+            }
+
+            return axisContainer;
+        }
+
+        function buildColumnOptions() {
+            const options = allData[0].map((column, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.text = column;
+                return option;
+            });
+
+            return options;
+        }
+
         document.getElementById('chartType')
             .addEventListener('change', () => {
                 const chartType = document.getElementById('chartType').value;
-                const xAxisContainer = document.getElementById('xAxisContainer');
-                xAxisContainer.style.display = chartType ? 'flex' : 'none';
 
-                const yAxisContainer = document.getElementById('yAxisContainer');
-                yAxisContainer.style.display = chartType ? 'flex' : 'none';
+                const optionsContainer = document.getElementById('optionsContainer');
 
-                const xAxisSelect = document.getElementById('xAxisSelect');
-                xAxisSelect.innerHTML = '';
-                const yAxisSelect = document.getElementById('yAxisSelect');
-                yAxisSelect.innerHTML = '';
+                optionsContainer.innerHTML = '';
 
-                if (chartType) {
-                    data[0].forEach((column, index) => {
-                        const option = document.createElement('option');
-                        option.value = index;
-                        option.text = column;
-                        xAxisSelect.appendChild(option);
-                        yAxisSelect.appendChild(option.cloneNode(true));
+                if (chartType === 'line' || chartType === 'bar') {
+                    const xAxisContainer = buildSelect('X Axis', buildColumnOptions());
+                    const yAxisContainer = buildSelect('Y Axis', buildColumnOptions());
+
+                    optionsContainer.appendChild(xAxisContainer);
+                    optionsContainer.appendChild(yAxisContainer);
+
+                    const btn = document.createElement('button');
+                    btn.innerText = 'Add Y Axis';
+                    btn.style.width = 'fit-content';
+                    optionsContainer.appendChild(btn);
+
+                    btn.addEventListener('click', () => {
+                        const yAxisContainer = buildSelect('Y Axis', buildColumnOptions(), true);
+                        optionsContainer.appendChild(yAxisContainer);
+                        optionsContainer.appendChild(btn);
                     });
                 }
             });
 
         document.getElementById('generateBtn').addEventListener('click', () => {
-            const xAxisColumn = document.getElementById('xAxisSelect').value;
-            const yAxisColumn = document.getElementById('yAxisSelect').value;
+            const optionsContainer = document.getElementById('optionsContainer');
+
+            const optionsLabels = optionsContainer.querySelectorAll('label');
+            const optionsSelects = optionsContainer.querySelectorAll('select');
+
+            const xAxisColumn = optionsSelects[0].value;
+            const yAxisColumns = [...optionsSelects].slice(1).map(select => select.value);
+
             const chartType = document.getElementById('chartType').value;
 
             const labels = data.map(row => row[xAxisColumn]).slice(1);
-            const chartData = data.map(row => parseFloat(row[yAxisColumn])).slice(1);
+
+            console.log(yAxisColumns);
+            const dataSets = yAxisColumns.map((yAxisColumn, index) => {
+                const mappedData = data.map(row => parseFloat(row[yAxisColumn])).slice(1);
+                return {
+                    label: allData[0][optionsSelects[index + 1].value],
+                    data: mappedData
+                }
+            });
 
             const canvasContainer = document.createElement('div');
             canvasContainer.classList.add('resizable-container');
@@ -303,29 +365,60 @@
             }
 
             const ctx = canvas.getContext('2d');
-            const chart = buildChart(ctx, labels, chartData, xAxisColumn, yAxisColumn, chartType);
+            const chart = buildChart(ctx, labels, dataSets, xAxisColumn, chartType);
             charts.push(chart);
         });
 
-        function buildChart(ctx, labels, chartData, xAxisColumn, yAxisColumn, chartType) {
+        const chartColors = [
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 99, 132, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(199, 199, 199, 1)',
+            'rgba(83, 102, 255, 1)',
+            'rgba(255, 102, 255, 1)',
+            'rgba(102, 255, 102, 1)',
+            'rgba(255, 102, 102, 1)',
+            'rgba(102, 102, 255, 1)',
+            'rgba(255, 255, 102, 1)',
+            'rgba(102, 255, 255, 1)',
+            'rgba(255, 102, 153, 1)',
+            'rgba(102, 153, 255, 1)',
+            'rgba(255, 153, 102, 1)',
+            'rgba(153, 255, 102, 1)',
+            'rgba(102, 255, 153, 1)',
+            'rgba(153, 102, 255, 1)'
+        ];
+
+        function getRandomColor() {
+            const randomIndex = Math.floor(Math.random() * chartColors.length);
+            return chartColors[randomIndex];
+        }
+
+        function buildChart(ctx, labels, dataSets, xAxisColumn, chartType) {
+            const dataArray = dataSets.map(data => {
+                data.backgroundColor = getRandomColor();
+                data.borderColor = getRandomColor();
+                data.borderWidth = 3;
+                return data;
+            });
+
+            console.log(dataArray);
+
             return new Chart(ctx, {
                 type: chartType,
                 data: {
                     labels: labels,
-                    datasets: [{
-                        label: 'Data',
-                        data: chartData,
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
+                    datasets: dataArray
                 },
                 options: {
                     scales: {
                         x: {
                             title: {
                                 display: true,
-                                text: data[0][xAxisColumn],
+                                text: allData[0][xAxisColumn],
                                 font: {
                                     size: 18
                                 }
@@ -339,7 +432,7 @@
                         y: {
                             title: {
                                 display: true,
-                                text: data[0][yAxisColumn],
+                                text: 'Data',
                                 font: {
                                     size: 18
                                 }
@@ -355,7 +448,7 @@
                     plugins: {
                         title: {
                             display: true,
-                            text: `${data[0][yAxisColumn]} - ${data[0][xAxisColumn]}`,
+                            text: `Data for ${allData[0][xAxisColumn]}`,
                             font: {
                                 size: 24
                             }
