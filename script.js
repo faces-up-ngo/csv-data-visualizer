@@ -1,141 +1,364 @@
-document.getElementById('fileInput').addEventListener('change', handleFileUpload);
-document.getElementById('generateReportButton').addEventListener('click', generateReport);
+let allData = null;
+let data = null;
 
-let studentsData = [];
-let chartInstances = [];
+const chartsContainer = document.getElementById('chartsContainer');
+const pdfChartsContainer = document.getElementById('pdfContainer');
+const charts = [];
 
-function handleFileUpload(event) {
-    const file = event.target.files[0];
-    if (file) {
-        Papa.parse(file, {
-            header: true,
-            complete: function (results) {
-                studentsData = results.data;
-                populateStudentSelect(studentsData);
-            }
-        });
-    }
-}
-
-function populateStudentSelect(data) {
-    const studentSelect = document.getElementById('studentSelect');
-    studentSelect.innerHTML = ''; // Clear previous options
-    const uniqueStudents = [...new Set(data.map(item => item['Student Number']))];
-    uniqueStudents.forEach((studentNumber, index) => {
-        const option = document.createElement('option');
-        option.value = studentNumber;
-        option.textContent = studentNumber;
-        studentSelect.appendChild(option);
-    });
-}
-
-function generateReport() {
-    const selectedStudentNumber = document.getElementById('studentSelect').value;
-    const studentData = studentsData.filter(item => item['Student Number'] === selectedStudentNumber);
-    document.getElementById('studentName').innerText = selectedStudentNumber;
-
-    chartInstances.forEach(chart => chart.destroy());
-    chartInstances = [];
-
-    // Process historical data
-    const labels = studentData.map(item => item['Assessment Period']);
-
-    const createDataset = (label, dataKey) => {
-        return {
-            label: label,
-            data: studentData.map(item => parseFloat(item[dataKey])),
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 5,
-            fill: true
-        };
+document.getElementById('uploadData').addEventListener('click', () => {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.csv';
+    fileInput.onchange = event => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                const csvData = e.target.result;
+                Papa.parse(csvData, {
+                    complete: function (results) {
+                        allData = results.data;
+                        console.log(allData);
+                        const studentSelect = document.getElementById('studentSelect');
+                        studentSelect.innerHTML = '';
+                        const students = [...new Set(allData.slice(1).map(r => r[1]))];
+                        studentSelect.appendChild(document.createElement('option'));
+                        students.forEach(student => {
+                            const option = document.createElement('option');
+                            option.value = student;
+                            option.text = student;
+                            studentSelect.appendChild(option);
+                        });
+                        alert('Data uploaded successfully.');
+                    },
+                    error: function (error) {
+                        console.error('Error parsing CSV:', error);
+                        alert('Error parsing CSV data.');
+                    }
+                });
+            };
+            reader.readAsText(file);
+        }
     };
+    fileInput.click();
+});
 
-    const skillCategories = [
-        { id: 'generalAppearanceChart', key: "Good General appearance", label: "General Appearance" },
-        { id: 'willingnessToListenChart', key: "Willingness to listen and ask questions", label: "Willingness to Listen" },
-        { id: 'willingnessToCooperateChart', key: "Willing to co-operate", label: "Willingness to Cooperate" },
-        { id: 'effortAndEngagementChart', key: "Shows effort and engagement during sessions", label: "Effort and Engagement" },
-        { id: 'identifyFeelingsChart', key: "Ability to identify and name their feelings and emotions", label: "Identify Feelings" },
-        { id: 'senseOfSelfChart', key: "Ability to demonstrate a strong sense of self", label: "Sense of Self" },
-        { id: 'empathyChart', key: "Ability to show empathy when appropriate", label: "Empathy" },
-        { id: 'expressFeelingsVerballyChart', key: "Willingness to express feelings and emotions verbally", label: "Express Feelings Verbally" },
-        { id: 'expressFeelingsThroughArtChart', key: "Willingness to express feelings and emotions through artwork", label: "Express Feelings Through Art" },
-        { id: 'imaginationOriginalityChart', key: "Demonstrates imagination  and originality through their works.", label: "Imagination and Originality" },
-        { id: 'completeArtProjectsChart', key: "Ability to complete art projects as instructed", label: "Complete Art Projects" },
-        { id: 'shareArtisticWorkChart', key: "Willingness to show and share artistic work done with others", label: "Share Artistic Work" },
-        { id: 'experimentWithArtMaterialsChart', key: "Willingness to experiment with art materials", label: "Experiment with Art Materials" },
-        { id: 'useAbstractionChart', key: "Ability to use abstraction in their works or titles", label: "Use Abstraction" },
-        { id: 'concentrateFollowInstructionsChart', key: "Willingness to concentrate, listen and follow facilitator's instructions", label: "Concentrate and Follow Instructions" },
-        { id: 'appreciationForOthersChart', key: "Shows appreciation for others", label: "Appreciation for Others" },
-        { id: 'interactWithFacilitatorsChart', key: "Ability to interact with facilitators and others", label: "Interact with Facilitators" },
-        { id: 'problemSolvingSkillsChart', key: "Ability to demonstrate good problem solving skills in class", label: "Problem Solving Skills" },
-        { id: 'shareToolsMaterialsChart', key: "Willing to freely share tools and art materials with others", label: "Share Tools and Materials" },
-        { id: 'perseveranceDuringTasksChart', key: "Level of perseverance during difficult tasks", label: "Perseverance During Tasks" },
-        { id: 'keepCalmChart', key: "Ability to keep calm when faced with a challenge or uncertainty", label: "Keep Calm" },
-        { id: 'selfConfidenceChart', key: "Displays self-confidence", label: "Self-Confidence" },
-        { id: 'solveProblemsChart', key: "Ability to solve problems", label: "Solve Problems" },
-        { id: 'leadershipInitiativeChart', key: "Ability to demonstrate leadership or take intiative", label: "Leadership or Initiative" }
-    ];
+document.getElementById('exportPdf').addEventListener('click', () => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
 
-    skillCategories.forEach(category => {
-        const ctx = document.getElementById(category.id).getContext('2d');
-        const dataset = createDataset(category.label, category.key);
-        
-        const type = dataset.data.length === 1 ? 'bar' : 'line';
+    // Add title and subtitle
+    doc.setFontSize(22);
+    doc.text('FacesUP Student Overview', 105, 20, null, null, 'center');
+    doc.setFontSize(16);
+    doc.text(`Student: ${document.getElementById('studentSelect').value}`, 105, 30, null, null, 'center');
 
-        const chart = new Chart(ctx, {
-            type: type,
-            data: {
-                labels: labels,
-                datasets: [dataset]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    x: {
-                        ticks: {
-                            font: {
-                                size: 24
-                            }
+    // Hide buttonsContainer and show chartsContainer
+    chartsContainer.querySelectorAll('button').forEach(btn => btn.style.display = 'none');
+
+    html2canvas(chartsContainer).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const imgWidth = 210; // A4 width in mm
+        const pageHeight = 297; // A4 height in mm
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+        let heightLeft = imgHeight;
+
+        let position = 40;
+
+        doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+
+        while (heightLeft >= 0) {
+            position = heightLeft - imgHeight;
+            doc.addPage();
+            doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+        }
+
+        doc.save('exported-content.pdf');
+        chartsContainer.querySelectorAll('button').forEach(btn => btn.style.display = 'block');
+    });
+});
+
+document.getElementById('studentSelect')
+    .addEventListener('change', () => {
+        const student = document.getElementById('studentSelect').value;
+        const studentData = allData.filter(row => row[1] === student);
+        studentData.unshift(allData[0]);
+        data = studentData
+    });
+
+document.getElementById('loadData')
+    .addEventListener('click', () => {
+        allData = Papa.parse(document.getElementById('csvInput').value).data;
+        const studentSelect = document.getElementById('studentSelect');
+        studentSelect.innerHTML = '';
+        const students = [...new Set(allData.slice(1).map(r => r[1]))];
+        studentSelect.appendChild(document.createElement('option'));
+        students.forEach(student => {
+            const option = document.createElement('option');
+            option.value = student;
+            option.text = student;
+            studentSelect.appendChild(option);
+        });
+    });
+
+function buildSelectOption(index, value) {
+    const option = document.createElement('option');
+    option.value = index;
+    option.text = column;
+    return option;
+}
+
+function buildSelect(name, options, deleteBtn = false) {
+    const axisContainer = document.createElement('div');
+    const label = document.createElement('label');
+    label.innerText = name;
+
+    const select = document.createElement('select');
+    select.classList.add('p-2', 'border', 'border-gray-300', 'rounded');
+    select.style.marginLeft = '10px';
+    select.id = `${name.toLowerCase()}Select`;
+
+    options.forEach(option => {
+        select.appendChild(option);
+    });
+
+    axisContainer.appendChild(label);
+    axisContainer.appendChild(select);
+
+    if (deleteBtn) {
+        const delBtn = document.createElement('button');
+        delBtn.innerText = 'Delete';
+        delBtn.classList.add('bg-red-500', 'text-white', 'py-2', 'px-4', 'rounded', 'hover:bg-red-700');
+        delBtn.style.marginLeft = '10px';
+        delBtn.addEventListener('click', () => {
+            axisContainer.remove();
+        });
+        axisContainer.appendChild(delBtn);
+    }
+
+    return axisContainer;
+}
+
+function buildColumnOptions() {
+    const options = allData[0].map((column, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.text = column;
+        return option;
+    });
+
+    return options;
+}
+
+document.getElementById('chartType')
+    .addEventListener('change', () => {
+        const chartType = document.getElementById('chartType').value;
+
+        const optionsContainer = document.getElementById('optionsContainer');
+
+        optionsContainer.innerHTML = '';
+
+        if (chartType === 'line' || chartType === 'bar') {
+            const xAxisContainer = buildSelect('X Axis', buildColumnOptions());
+            const yAxisContainer = buildSelect('Y Axis', buildColumnOptions());
+
+            optionsContainer.appendChild(xAxisContainer);
+            optionsContainer.appendChild(yAxisContainer);
+
+            const btn = document.createElement('button');
+            btn.innerText = 'Add Y Axis';
+            btn.classList.add('bg-purple-500', 'text-white', 'py-2', 'px-4', 'rounded', 'hover:bg-purple-700');
+            btn.style.width = 'fit-content';
+            optionsContainer.appendChild(btn);
+
+            btn.addEventListener('click', () => {
+                const yAxisContainer = buildSelect('Y Axis', buildColumnOptions(), true);
+                optionsContainer.appendChild(yAxisContainer);
+                optionsContainer.appendChild(btn);
+            });
+        }
+    });
+
+document.getElementById('generateBtn').addEventListener('click', () => {
+    const optionsContainer = document.getElementById('optionsContainer');
+
+    const optionsLabels = optionsContainer.querySelectorAll('label');
+    const optionsSelects = optionsContainer.querySelectorAll('select');
+
+    const xAxisColumn = optionsSelects[0].value;
+    const yAxisColumns = [...optionsSelects].slice(1).map(select => select.value);
+
+    const chartType = document.getElementById('chartType').value;
+
+    const labels = data.map(row => row[xAxisColumn]).slice(1);
+
+    const dataSets = yAxisColumns.map((yAxisColumn, index) => {
+        const mappedData = data.map(row => parseFloat(row[yAxisColumn])).slice(1);
+        return {
+            label: allData[0][optionsSelects[index + 1].value],
+            data: mappedData
+        }
+    });
+
+    const canvasContainer = document.createElement('div');
+    canvasContainer.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+    canvasContainer.style.width = '50%';
+
+    const btnsContainer = document.createElement('div');
+    btnsContainer.style.padding = '10px';
+    btnsContainer.style.display = 'flex';
+    btnsContainer.style.gap = '10px';
+
+    const delBtn = document.createElement('button');
+    delBtn.innerText = 'Delete';
+    delBtn.classList.add('bg-red-500', 'text-white', 'py-2', 'px-4', 'rounded', 'hover:bg-red-700');
+    delBtn.style.width = 'fit-content';
+    delBtn.addEventListener('click', () => {
+        canvasContainer.remove();
+    });
+
+    const increaseSizeBtn = document.createElement('button');
+    increaseSizeBtn.innerText = '+';
+    increaseSizeBtn.style.width = 'fit-content';
+    increaseSizeBtn.classList.add('bg-blue-500', 'text-white', 'py-2', 'px-4', 'rounded', 'hover:bg-blue-700');
+    increaseSizeBtn.addEventListener('click', () => {
+        canvasContainer.style.width = '75%';
+    });
+
+    const decreaseSizeBtn = document.createElement('button');
+    decreaseSizeBtn.innerText = '-';
+    decreaseSizeBtn.style.width = 'fit-content';
+    decreaseSizeBtn.classList.add('bg-blue-500', 'text-white', 'py-2', 'px-4', 'rounded', 'hover:bg-blue-700');
+    decreaseSizeBtn.addEventListener('click', () => {
+        canvasContainer.style.width = '50%';
+    });
+
+    btnsContainer.appendChild(increaseSizeBtn);
+    btnsContainer.appendChild(decreaseSizeBtn);
+    btnsContainer.appendChild(delBtn);
+
+    canvasContainer.appendChild(btnsContainer);
+
+    canvasContainer.classList.add('resizable-container');
+    const canvas = document.createElement('canvas');
+
+    canvasContainer.appendChild(canvas);
+    canvas.id = `${charts.length}canvas`;
+
+    if (charts.length === 0) {
+        chartsContainer.appendChild(canvasContainer);
+    } else {
+        chartsContainer.insertBefore(canvasContainer, chartsContainer.children[0]);
+    }
+
+    const ctx = canvas.getContext('2d');
+    const chart = buildChart(ctx, labels, dataSets, xAxisColumn, chartType);
+    charts.push(chart);
+});
+
+const chartColors = [
+    'rgba(54, 162, 235, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 206, 86, 1)',
+    'rgba(75, 192, 192, 1)',
+    'rgba(153, 102, 255, 1)',
+    'rgba(255, 159, 64, 1)',
+    'rgba(199, 199, 199, 1)',
+    'rgba(83, 102, 255, 1)',
+    'rgba(255, 102, 255, 1)',
+    'rgba(102, 255, 102, 1)',
+    'rgba(255, 102, 102, 1)',
+    'rgba(102, 102, 255, 1)',
+    'rgba(255, 255, 102, 1)',
+    'rgba(102, 255, 255, 1)',
+    'rgba(255, 102, 153, 1)',
+    'rgba(102, 153, 255, 1)',
+    'rgba(255, 153, 102, 1)',
+    'rgba(153, 255, 102, 1)',
+    'rgba(102, 255, 153, 1)',
+    'rgba(153, 102, 255, 1)'
+];
+
+function getRandomColor() {
+    const randomIndex = Math.floor(Math.random() * chartColors.length);
+    return chartColors[randomIndex];
+}
+
+function buildChart(ctx, labels, dataSets, xAxisColumn, chartType) {
+    const dataArray = dataSets.map(data => {
+        data.backgroundColor = getRandomColor();
+        data.borderColor = getRandomColor();
+        data.borderWidth = 3;
+        return data;
+    });
+
+    console.log(dataArray);
+
+    return new Chart(ctx, {
+        type: chartType,
+        data: {
+            labels: labels,
+            datasets: dataArray
+        },
+        options: {
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: allData[0][xAxisColumn],
+                        font: {
+                            size: 18
                         }
                     },
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            font: {
-                                size: 24
-                            }
+                    ticks: {
+                        font: {
+                            size: 18
                         }
                     }
                 },
-                plugins: {
+                y: {
                     title: {
                         display: true,
-                        text: category.label,
+                        text: 'Data',
                         font: {
-                            size: 30
+                            size: 18
                         }
                     },
-                    legend: {
-                        labels: {
-                            font: {
-                                size: 24
-                            }
-                        }
-                    },
-                    tooltip: {
-                        enabled: true,
-                        bodyFont: {
-                            size: 24
-                        },
-                        titleFont: {
-                            size: 24
+                    beginAtZero: true,
+                    ticks: {
+                        font: {
+                            size: 18
                         }
                     }
                 }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: `Data for ${allData[0][xAxisColumn]}`,
+                    font: {
+                        size: 24
+                    }
+                },
+                legend: {
+                    labels: {
+                        font: {
+                            size: 18
+                        }
+                    }
+                },
+                tooltip: {
+                    enabled: true,
+                    bodyFont: {
+                        size: 18
+                    },
+                    titleFont: {
+                        size: 18
+                    }
+                }
             }
-        });
-        chartInstances.push(chart);
+        }
     });
 }
