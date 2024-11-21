@@ -1,0 +1,21 @@
+{
+    "name": "Preset",
+    "description": "Preset Description",
+    "charts": [
+      {
+        "title": "Chart",
+        "type": "line",
+        "config": {
+          "filters": [],
+          "xAxis": {
+            "column": "1"
+          },
+          "yAxis": [
+            {
+              "column": "6"
+            }
+          ]
+        }
+      }
+    ]
+  }

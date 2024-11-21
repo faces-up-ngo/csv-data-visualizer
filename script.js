@@ -9,6 +9,41 @@ const addFilterBtn = document.getElementById('addFilterBtn');
 const filtersContainer = document.getElementById('filtersContainer');
 const chartTypeSelect = document.getElementById('chartType');
 
+const chartsExport = [];
+
+document.getElementById('exportPresetBtn').addEventListener('click', () => {
+    const data = {
+        "name": "Preset",
+        "description": "Preset Description",
+        "charts": chartsExport
+    }
+
+    // Copy to clipboard
+    navigator.clipboard.writeText(JSON.stringify(data, null, 2));
+});
+
+function buildFiltersExport() {
+    const filters = filtersContainer.querySelectorAll(':scope > div');
+    const filtersExport = [];
+
+    filters.forEach(filter => {
+        const filterBy = filter.querySelectorAll('div')[0].querySelector('select').value;
+        const filterValue = filter.querySelectorAll('div')[1].querySelector('select').value;
+
+        if (filterBy === '-1' || filterValue === '-1') {
+            return;
+        }
+
+        const filterExport = {
+            "column": filterBy,
+            "value": filter.querySelectorAll('div')[1].querySelector('select').options[filterValue].text
+        };
+        filtersExport.push(filterExport);
+    });
+
+    return filtersExport;
+}
+
 function filterData() {
     const filters = filtersContainer.querySelectorAll(':scope > div');
     let filteredData = allData.slice(1);
@@ -372,7 +407,7 @@ document.getElementById('generateBtn').addEventListener('click', () => {
 
                 acc[column]++;
             });
-            
+
             return acc;
         }, {});
 
@@ -434,6 +469,19 @@ document.getElementById('generateBtn').addEventListener('click', () => {
         charts.push(chart);
 
         chartsContainer.appendChild(canvasContainer);
+
+        const chartExport = {
+            "title": title,
+            "type": chartType,
+            "config": {
+                "filters": buildFiltersExport(),
+                "columns": {
+                    "include": columnsToInclude.map(column => ({ 'column': column })),
+                    "exclude": columnsToExclude.map(column => ({ 'column': column }))
+                }
+            }
+        };
+        chartsExport.push(chartExport);
 
         return;
     }
@@ -508,8 +556,22 @@ document.getElementById('generateBtn').addEventListener('click', () => {
         }
 
         const ctx = canvas.getContext('2d');
-        const chart = buildChart(ctx, labels, dataSets, xAxisColumn, chartType);
+        const chart = buildLineStyleChart(ctx, labels, dataSets, xAxisColumn, chartType);
         charts.push(chart);
+
+        const chartExport = {
+            "title": "Chart",
+            "type": chartType,
+            "config": {
+                "filters": buildFiltersExport(),
+                "xAxis": {
+                    "column": xAxisColumn
+                },
+                "yAxis": yAxisColumns.map(axis => ({ 'column': axis })),
+            }
+        }
+        chartsExport.push(chartExport);
+        console.log(chartsExport);
     }
 });
 
@@ -592,7 +654,7 @@ function buildPieChart(ctx, dataAggregation, title = 'Pie Chart') {
     });
 }
 
-function buildChart(ctx, labels, dataSets, xAxisColumn, chartType) {
+function buildLineStyleChart(ctx, labels, dataSets, xAxisColumn, chartType) {
     const dataArray = dataSets.map(data => {
         data.backgroundColor = getRandomColor();
         data.borderColor = getRandomColor();
