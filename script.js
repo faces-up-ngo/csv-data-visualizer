@@ -2,8 +2,22 @@ let allData = null;
 let data = null;
 
 const chartsContainer = document.getElementById('chartsContainer');
+const chartsGenerationContainer = document.getElementById('chartsGenerationContainer');
+const dataLoadedContainer = document.getElementById('dataLoadedContainer');
 const pdfChartsContainer = document.getElementById('pdfContainer');
 const charts = [];
+
+function showChartsGeneration() {
+    chartsGenerationContainer.style.display = 'block';
+}
+
+function showDataLoaded() {
+    dataLoadedContainer.style.display = 'block';
+}
+
+function hideDataLoadingContainer() {
+    document.getElementById('dataLoadingContainer').style.display = 'none';
+}
 
 document.getElementById('uploadData').addEventListener('click', () => {
     const fileInput = document.createElement('input');
@@ -29,7 +43,9 @@ document.getElementById('uploadData').addEventListener('click', () => {
                             option.text = student;
                             studentSelect.appendChild(option);
                         });
-                        alert('Data uploaded successfully.');
+                        hideDataLoadingContainer();
+                        showDataLoaded();
+                        showChartsGeneration();
                     },
                     error: function (error) {
                         console.error('Error parsing CSV:', error);
@@ -101,6 +117,10 @@ document.getElementById('loadData')
             option.text = student;
             studentSelect.appendChild(option);
         });
+
+        hideDataLoadingContainer();
+        showDataLoaded();
+        showChartsGeneration();
     });
 
 function buildSelectOption(index, value) {
