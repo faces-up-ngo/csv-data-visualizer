@@ -251,7 +251,7 @@ function buildRowValueOptions(column) {
 }
 
 const COLUMN_TO_EXCLUDE_CLASS = 'column-to-exclude';
-
+const COLUMN_TO_INCLUDE_CLASS = 'column-to-include';
 
 document.getElementById('chartType')
     .addEventListener('change', () => {
@@ -288,25 +288,59 @@ document.getElementById('chartType')
             return;
         }
 
-
         if (chartType === 'pie' || chartType === 'doughnut') {
-            // Columns to exclude
-            const columnsToExcludeLabel = document.createElement('label').innerText = 'Columns to exclude';
+            const gridContainer = document.createElement('div');
+            gridContainer.classList.add('grid', 'grid-cols-2', 'gap-4');
 
-            const addColumnToExclude = document.createElement('button');
-            addColumnToExclude.innerText = 'Add';
-            addColumnToExclude.classList.add('bg-blue-500', 'text-white', 'py-2', 'px-4', 'rounded', 'hover:bg-blue-700');
-            addColumnToExclude.style.width = 'fit-content';
-            addColumnToExclude.addEventListener('click', () => {
-                const columnToExclude = buildSelect('', buildColumnOptions(), true);
-                columnToExclude.querySelector('select').classList.add(COLUMN_TO_EXCLUDE_CLASS);
-                optionsContainer.appendChild(columnToExclude);
-                optionsContainer.appendChild(addColumnToExclude);
+            const includeContainer = document.createElement('div');
+            const includeLabel = document.createElement('label');
+            includeLabel.innerText = 'Columns to include';
+            const addIncludeBtn = document.createElement('button');
+            addIncludeBtn.innerText = 'Add';
+            addIncludeBtn.style.marginLeft = '10px';
+            addIncludeBtn.classList.add('bg-blue-500', 'text-white', 'py-2', 'px-4', 'rounded', 'hover:bg-blue-700');
+            addIncludeBtn.style.width = 'fit-content';
+            addIncludeBtn.addEventListener('click', () => {
+                const columnToInclude = buildSelect('', buildColumnOptions(), true);
+                columnToInclude.style.marginTop = '10px';
+                columnToInclude.querySelector('select').classList.add(COLUMN_TO_INCLUDE_CLASS);
+                includeContainer.appendChild(columnToInclude);
             });
 
-            optionsContainer.append(columnsToExcludeLabel);
-            optionsContainer.appendChild(document.createElement('br'));
-            optionsContainer.appendChild(addColumnToExclude);
+            includeContainer.appendChild(includeLabel);
+            includeContainer.appendChild(addIncludeBtn);
+
+            const excludeContainer = document.createElement('div');
+            const excludeLabel = document.createElement('label');
+            excludeLabel.innerText = 'Columns to exclude';
+            const addExcludeBtn = document.createElement('button');
+            addExcludeBtn.innerText = 'Add';
+            addExcludeBtn.style.marginLeft = '10px';
+            addExcludeBtn.classList.add('bg-blue-500', 'text-white', 'py-2', 'px-4', 'rounded', 'hover:bg-blue-700');
+            addExcludeBtn.style.width = 'fit-content';
+            addExcludeBtn.addEventListener('click', () => {
+                const columnToExclude = buildSelect('', buildColumnOptions(), true);
+                columnToExclude.style.marginTop = '10px';
+                columnToExclude.querySelector('select').classList.add(COLUMN_TO_EXCLUDE_CLASS);
+                excludeContainer.appendChild(columnToExclude);
+            });
+
+            excludeContainer.appendChild(excludeLabel);
+            excludeContainer.appendChild(addExcludeBtn);
+
+            gridContainer.appendChild(includeContainer);
+            gridContainer.appendChild(excludeContainer);
+            gridContainer.style.marginTop = '10px';
+
+            // Create title input for the pie chart
+            const titleInput = document.createElement('input');
+            titleInput.type = 'text';
+            titleInput.id = 'chartTitle';
+            titleInput.placeholder = 'Chart title';
+            titleInput.classList.add('p-2', 'border', 'border-gray-300', 'rounded');
+            optionsContainer.appendChild(titleInput);
+
+            optionsContainer.appendChild(gridContainer);
         }
     });
 
@@ -317,10 +351,15 @@ document.getElementById('generateBtn').addEventListener('click', () => {
     const chartType = chartTypeSelect.value;
 
     if (chartType === 'pie' || chartType === 'doughnut') {
+        const columnsToInclude = Array.from(optionsContainer.querySelectorAll(`.${COLUMN_TO_INCLUDE_CLASS}`)).map(select => select.value);
         const columnsToExclude = Array.from(optionsContainer.querySelectorAll(`.${COLUMN_TO_EXCLUDE_CLASS}`)).map(select => select.value);
 
         const dataWithoutColumns = data.map(row => {
             return row.filter((column, index) => {
+                if (columnsToInclude.length > 0) {
+                    return columnsToInclude.includes(index.toString()) && !columnsToExclude.includes(index.toString());
+                }
+
                 return !columnsToExclude.includes(index.toString());
             });
         });
@@ -336,7 +375,65 @@ document.getElementById('generateBtn').addEventListener('click', () => {
             
             return acc;
         }, {});
-        console.log(pieAggregation);
+
+        const canvasContainer = document.createElement('div');
+        canvasContainer.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+        canvasContainer.style.width = '50%';
+
+        const btnsContainer = document.createElement('div');
+        btnsContainer.style.padding = '10px';
+        btnsContainer.style.display = 'flex';
+        btnsContainer.style.gap = '10px';
+
+        const delBtn = document.createElement('button');
+        delBtn.innerText = 'Delete';
+        delBtn.classList.add('bg-red-500', 'text-white', 'py-2', 'px-4', 'rounded', 'hover:bg-red-700');
+        delBtn.style.width = 'fit-content';
+        delBtn.addEventListener('click', () => {
+            canvasContainer.remove();
+        });
+
+        const increaseSizeBtn = document.createElement('button');
+        increaseSizeBtn.innerText = '+';
+        increaseSizeBtn.style.width = 'fit-content';
+        increaseSizeBtn.classList.add('bg-blue-500', 'text-white', 'py-2', 'px-4', 'rounded', 'hover:bg-blue-700');
+        increaseSizeBtn.addEventListener('click', () => {
+            canvasContainer.style.width = '75%';
+        });
+
+        const decreaseSizeBtn = document.createElement('button');
+        decreaseSizeBtn.innerText = '-';
+        decreaseSizeBtn.style.width = 'fit-content';
+        decreaseSizeBtn.classList.add('bg-blue-500', 'text-white', 'py-2', 'px-4', 'rounded', 'hover:bg-blue-700');
+        decreaseSizeBtn.addEventListener('click', () => {
+            canvasContainer.style.width = '50%';
+        });
+
+        btnsContainer.appendChild(increaseSizeBtn);
+        btnsContainer.appendChild(decreaseSizeBtn);
+        btnsContainer.appendChild(delBtn);
+
+        canvasContainer.appendChild(btnsContainer);
+
+        canvasContainer.classList.add('resizable-container');
+        const canvas = document.createElement('canvas');
+
+        canvasContainer.appendChild(canvas);
+        canvas.id = `${charts.length}canvas`;
+
+        if (charts.length === 0) {
+            chartsContainer.appendChild(canvasContainer);
+        } else {
+            chartsContainer.insertBefore(canvasContainer, chartsContainer.children[0]);
+        }
+
+        const title = document.getElementById('chartTitle').value || 'Pie Chart';
+
+        const ctx = canvas.getContext('2d');
+        const chart = buildPieChart(ctx, pieAggregation, title);
+        charts.push(chart);
+
+        chartsContainer.appendChild(canvasContainer);
 
         return;
     }
@@ -416,7 +513,7 @@ document.getElementById('generateBtn').addEventListener('click', () => {
     }
 });
 
-// ...existing code...
+let currentColor = 0;
 
 const chartColors = [
     'rgba(54, 162, 235, 1)',
@@ -442,8 +539,57 @@ const chartColors = [
 ];
 
 function getRandomColor() {
-    const randomIndex = Math.floor(Math.random() * chartColors.length);
-    return chartColors[randomIndex];
+    if (currentColor < chartColors.length) {
+        return chartColors[currentColor++];
+    }
+
+    currentColor = 0;
+    return chartColors[currentColor++];
+}
+
+function buildPieChart(ctx, dataAggregation, title = 'Pie Chart') {
+    const labels = Object.keys(dataAggregation);
+    const dataValues = Object.values(dataAggregation);
+
+    return new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: dataValues,
+                backgroundColor: labels.map(() => getRandomColor()),
+                borderColor: labels.map(() => getRandomColor()),
+                borderWidth: 3
+            }]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: title,
+                    font: {
+                        size: 24
+                    }
+                },
+                legend: {
+                    labels: {
+                        font: {
+                            size: 18
+                        }
+                    }
+                },
+                tooltip: {
+                    enabled: true,
+                    bodyFont: {
+                        size: 18
+                    },
+                    titleFont: {
+                        size: 18
+                    }
+                }
+            }
+        }
+    });
 }
 
 function buildChart(ctx, labels, dataSets, xAxisColumn, chartType) {

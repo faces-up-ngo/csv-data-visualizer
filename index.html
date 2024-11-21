@@ -48,8 +48,18 @@
                         <option value="pie">Pie Chart</option>
                     </select>
                 </div>
-    
+
                 <div id="optionsContainer" class="flex flex-col gap-2 p-4 hidden">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label>Columns to include</label>
+                            <button id="addColumnToInclude" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Add</button>
+                        </div>
+                        <div>
+                            <label>Columns to exclude</label>
+                            <button id="addColumnToExclude" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Add</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             
