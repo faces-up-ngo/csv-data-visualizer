@@ -33,28 +33,32 @@
         </section>
         <div id="chartsGenerationContainer" class="hidden">
             <h3 class="text-2xl font-semibold text-center text-blue-500 mb-4">Chart Generation</h3>
-            <div class="selects flex gap-4 mb-4 items-center">
-                <label for="studentSelect" class="self-center">Select Student</label>
-                <select id="studentSelect" class="p-2 border border-gray-300 rounded">
-                </select>
+            <div id="filtersContainer" class="selects mb-4 mt-4 p-2 border border-gray-300 rounded">
+                <label for="filter" class="self-center">Filters</label>
+                <button id="addFilterBtn" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Add Filter</button>
             </div>
 
-            <div class="selects flex gap-4 mb-4 items-center">
-                <label for="chartType" class="self-center">Chart Type</label>
-                <select id="chartType" class="p-2 border border-gray-300 rounded">
-                    <option value=""></option>
-                    <option value="line">Line Chart</option>
-                    <option value="bar">Bar Chart</option>
-                </select>
+            <div class="p-2 border border-gray-300 rounded">
+                <div class="selects flex gap-4 items-center">
+                    <label for="chartType" class="self-center">Chart Type</label>
+                    <select id="chartType" class="p-2 border border-gray-300 rounded">
+                        <option value=""></option>
+                        <option value="line">Line Chart</option>
+                        <option value="bar">Bar Chart</option>
+                        <option value="pie">Pie Chart</option>
+                    </select>
+                </div>
+    
+                <div id="optionsContainer" class="flex flex-col gap-2 p-4 hidden">
+                </div>
             </div>
-
-            <div id="optionsContainer" class="flex flex-col gap-2 p-4">
+            
+            <div class="mt-4">
+                <button id="generateBtn" class="bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-700">Generate
+                    Chart</button>
+                <button id="exportPdf" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Export to
+                    PDF</button>
             </div>
-
-            <button id="generateBtn" class="bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-700">Generate
-                Chart</button>
-            <button id="exportPdf" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Export to
-                PDF</button>
             <div id="chartsContainer" class="flex flex-wrap pt-4 pb-4 justify-center">
             </div>
         </div>
