@@ -68,34 +68,134 @@ function createChartFromJSON(preset) {
     preset.charts.forEach(chartData => {
         // Create a canvas element for the chart
         const divContainer = document.createElement('div');
-        divContainer.style.width = '50%';
         container.appendChild(divContainer);
 
         const canvas = document.createElement('canvas');
         divContainer.appendChild(canvas)
 
-        // Extract data from JSON
-        const xAxisColumn = chartData.config.xAxis.column;
-        const yAxisColumns = chartData.config.yAxis.map(y => y.column);
-        const filters = chartData.config.filters;
+        if (chartData.type === 'line' || chartData.type === 'bar') {
+            divContainer.style.width = '50%';
+            // Extract data from JSON
+            const xAxisColumn = chartData.config.xAxis.column;
+            const yAxisColumns = chartData.config.yAxis.map(y => y.column);
+            const filters = chartData.config.filters;
 
-        // Filter data based on filters
-        const filteredData = data.slice(1).filter(row => {
-            return filters.every(filter => row[filter.column] === filter.value);
-        });
+            // Filter data based on filters
+            const filteredData = data.slice(1).filter(row => {
+                return filters.every(filter => row[filter.column] === filter.value);
+            });
 
-        // Extract x and y values
-        const labels = filteredData.map(row => row[xAxisColumn]);
-        const datasets = yAxisColumns.map((yAxisColumn, index) => {
-            const mappedData = data.map(row => parseFloat(row[yAxisColumn]));
-            return {
-                label: data[0][yAxisColumn],
-                data: mappedData
+            // Extract x and y values
+            const labels = filteredData.map(row => row[xAxisColumn]);
+            const datasets = yAxisColumns.map((yAxisColumn, index) => {
+                const mappedData = data.map(row => parseFloat(row[yAxisColumn]));
+                return {
+                    label: data[0][yAxisColumn],
+                    data: mappedData
+                }
+            });
+
+            // Create the chart
+            buildLineStyleChart(canvas, chartData.type, labels, datasets, chartData.title, data[0][xAxisColumn]);
+            return;
+        }
+
+        if (chartData.type === 'pie' || chartData.type === 'doughnut') {
+            divContainer.style.width = '25%';
+            const columnsToInclude = chartData.config.columns.include.map(obj => obj.column);
+            const columnsToExclude = chartData.config.columns.exclude.map(obj => obj.column);
+
+            const dataWithoutColumns = data.slice(1).map(row => {
+                return row.filter((column, index) => {
+                    if (columnsToInclude.length > 0) {
+                        return columnsToInclude.includes(index.toString()) && !columnsToExclude.includes(index.toString());
+                    }
+    
+                    return !columnsToExclude.includes(index.toString());
+                });
+            });
+    
+            const pieAggregation = dataWithoutColumns.reduce((acc, row) => {
+                row.forEach((column, index) => {
+                    if (!acc[column]) {
+                        acc[column] = 0;
+                    }
+    
+                    acc[column]++;
+                });
+    
+                return acc;
+            }, {});
+
+            console.log(pieAggregation);
+            buildPieChart(canvas, chartData.type, pieAggregation, chartData.title);
+
+            return;
+        }
+
+    });
+}
+
+function buildPieChart(ctx, type, dataAggregation, title = 'Pie Chart') {
+    const dataValues = Object.values(dataAggregation);
+    const total = dataValues.reduce((sum, value) => sum + value, 0);
+
+    const labels = Object.keys(dataAggregation)
+    .map((label, index) => {
+        const percentage = (dataAggregation[label] / total * 100).toFixed(2) + '%';
+        return `${label} (${percentage})`;
+    });
+
+
+    return new Chart(ctx, {
+        type: type,
+        data: {
+            labels: labels,
+            datasets: [{
+                data: dataValues,
+                backgroundColor: labels.map(() => getRandomColor()),
+                borderColor: labels.map(() => getRandomColor()),
+                borderWidth: 3
+            }]
+        },
+        plugins: [ChartDataLabels],
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: title,
+                    font: {
+                        size: 24
+                    }
+                },
+                legend: {
+                    labels: {
+                        font: {
+                            size: 18
+                        }
+                    }
+                },
+                datalabels: {
+                    formatter: (value, context) => {
+                        const percentage = (value / total * 100).toFixed(2) + '%';
+                        return percentage;
+                    },
+                    color: '#fff',
+                    font: {
+                        size: 18
+                    }
+                },
+                tooltip: {
+                    enabled: true,
+                    bodyFont: {
+                        size: 18
+                    },
+                    titleFont: {
+                        size: 18
+                    }
+                }
             }
-        });
-        
-        // Create the chart
-        buildLineStyleChart(canvas, chartData.type, labels, datasets, chartData.title, data[0][xAxisColumn]);
+        }
     });
 }
 

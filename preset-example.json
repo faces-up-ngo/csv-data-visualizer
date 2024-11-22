@@ -16,6 +16,21 @@
             }
           ]
         }
+      },
+      {
+        "title": "Test Pie Chart",
+        "type": "pie",
+        "config": {
+          "filters": [],
+          "columns": {
+            "include": [
+              {
+                "column": "5"
+              }
+            ],
+            "exclude": []
+          }
+        }
       }
     ]
   }
