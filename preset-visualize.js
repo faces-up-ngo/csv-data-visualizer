@@ -105,7 +105,14 @@ function createChartFromJSON(preset) {
             const columnsToInclude = chartData.config.columns.include.map(obj => obj.column);
             const columnsToExclude = chartData.config.columns.exclude.map(obj => obj.column);
 
-            const dataWithoutColumns = data.slice(1).map(row => {
+            const filters = chartData.config.filters;
+
+            // Filter data based on filters
+            const filteredData = data.slice(1).filter(row => {
+                return filters.every(filter => row[filter.column] === filter.value);
+            });
+
+            const dataWithoutColumns = filteredData.slice(1).map(row => {
                 return row.filter((column, index) => {
                     if (columnsToInclude.length > 0) {
                         return columnsToInclude.includes(index.toString()) && !columnsToExclude.includes(index.toString());
@@ -127,7 +134,6 @@ function createChartFromJSON(preset) {
                 return acc;
             }, {});
 
-            console.log(pieAggregation);
             buildPieChart(canvas, chartData.type, pieAggregation, chartData.title);
 
             return;
