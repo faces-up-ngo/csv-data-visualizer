@@ -19,18 +19,26 @@
     <h1 class="text-4xl font-bold text-center text-blue-600 my-4">Preset Visualizer</h1>
     <div id="container" class="max-w-screen-2xl w-9/10 mx-auto bg-white p-8 rounded-lg shadow-lg">
         <h3 class="text-2xl font-semibold text-center text-blue-500 mb-4">Data Loading</h3>
-        
+
         <h3 id="loadDataTitle" class="text-xl font-semibold text-center text-blue-500 mb-4">Load Preset</h3>
         <section id="presetDataUpload">
             <textarea id="presetInput" class="w-full h-40 p-4 border border-gray-300 rounded mb-4"
                 placeholder="Paste your preset data here"></textarea>
-            <div class="buttons flex gap-4 mb-4">
-                <button id="loadPresetDataBtn" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Load Data</button>
-                <button id="uploadPresetDataBtn" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">Upload
-                    Data</button>
+            <label for="presetSelect" class="text-lg font-medium text-gray-700">Choose predefined
+                presets</label>
+            <select id="presetSelect"
+                class="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                <option value="-1">None</option>
+            </select>
+            <div class="buttons flex gap-4 mb-4 mt-4">
+                <button id="loadPresetDataBtn" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Load
+                    Preset</button>
+                <button id="uploadPresetDataBtn"
+                    class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">Upload
+                    Preset</button>
             </div>
         </section>
-        
+
         <section id="loadPresetSuccess" class="hidden">
             <h3 class="text-xl font-semibold text-center mb-4">Data Successfully Loaded</h3>
         </section>
@@ -40,8 +48,10 @@
             <textarea id="csvInput" class="w-full h-40 p-4 border border-gray-300 rounded mb-4"
                 placeholder="Paste your CSV data here"></textarea>
             <div class="buttons flex gap-4 mb-4">
-                <button id="loadCSVDataBtn" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Load Data</button>
-                <button id="uploadCSVDataBtn" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">Upload
+                <button id="loadCSVDataBtn" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Load
+                    Data</button>
+                <button id="uploadCSVDataBtn"
+                    class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">Upload
                     Data</button>
             </div>
         </section>

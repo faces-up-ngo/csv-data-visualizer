@@ -14,6 +14,48 @@ const uploadCSVDataBtn = document.getElementById('uploadCSVDataBtn');
 
 const visualizeBtn = document.getElementById('visualizeBtn');
 
+const presets = [];
+
+const presetSelect = document.getElementById('presetSelect');
+
+presetSelect.addEventListener('change', (event) => {
+    if (event.target.value === '-1') {
+        presetInput.value = '';
+        return;
+    }
+    const parsedValue = JSON.parse(event.target.value);
+    presetInput.value = JSON.stringify(parsedValue, null, 4);
+});
+
+function displayPresets() {
+    
+    presets.forEach(preset => { 
+        const option = document.createElement('option');
+        option.value = JSON.stringify(preset);
+        option.text = preset.name;
+        presetSelect.appendChild(option);
+    });
+}
+
+window.onload = () => {
+const url = `https://faces-up-ngo.github.io/csv-data-visualizer/presets/preset-example.json`;
+
+fetch(url)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        presets.push(data);
+        displayPresets();
+    })
+    .catch(error => {
+        console.error('There has been a problem with your fetch operation:', error);
+    });
+};
+
 visualizeBtn.addEventListener('click', () => {
     if (!data) {
         alert('Please load or upload CSV data');
