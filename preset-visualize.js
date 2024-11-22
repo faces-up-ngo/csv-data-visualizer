@@ -12,6 +12,9 @@ const csvInput = document.getElementById('csvInput');
 const loadCSVDataBtn = document.getElementById('loadCSVDataBtn');
 const uploadCSVDataBtn = document.getElementById('uploadCSVDataBtn');
 
+const presetTitle = document.getElementById('presetTitle');
+const presetDescription = document.getElementById('presetDescription');
+
 const visualizeBtn = document.getElementById('visualizeBtn');
 
 const presets = [];
@@ -28,8 +31,8 @@ presetSelect.addEventListener('change', (event) => {
 });
 
 function displayPresets() {
-    
-    presets.forEach(preset => { 
+
+    presets.forEach(preset => {
         const option = document.createElement('option');
         option.value = JSON.stringify(preset);
         option.text = preset.name;
@@ -37,24 +40,73 @@ function displayPresets() {
     });
 }
 
-window.onload = () => {
-const url = `https://faces-up-ngo.github.io/csv-data-visualizer/presets/preset-example.json`;
+window.onload = async () => {
+    const url = `https://faces-up-ngo.github.io/csv-data-visualizer/presets/preset-`;
 
-fetch(url)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
+    for (let i = 1; i <= 100; i++) {
+        const response = await fetchPreset(url + i + '.json');
+        if (!response) {
+            displayPresets();
+            break;
         }
-        return response.json();
-    })
-    .then(data => {
-        presets.push(data);
-        displayPresets();
-    })
-    .catch(error => {
-        console.error('There has been a problem with your fetch operation:', error);
-    });
+    }
 };
+
+async function fetchPreset(url) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            console.error('Network response was not ok ' + response.statusText);
+            return;
+        }
+        const data = await response.json();
+        presets.push(data);
+        return data;
+    } catch (error) {
+        console.error('There has been a problem with your fetch operation:', error);
+        return;
+    }
+}
+
+document.getElementById('exportPDF').addEventListener('click', () => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Add title and subtitle
+    doc.setFontSize(22);
+    doc.text(presetTitle.innerText, 105, 20, null, null, 'center');
+    doc.setFontSize(16);
+    // Add all Filters
+    // Find only top level divs
+
+    let position = 30;
+    doc.text(presetDescription.innerText, 105, position, null, null, 'center');
+
+    // Hide buttonsContainer and show chartsContainer
+
+    html2canvas(document.getElementById('presetCharts')).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const imgWidth = 210; // A4 width in mm
+        const pageHeight = 297; // A4 height in mm
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+        let heightLeft = imgHeight;
+
+        position += 10;
+
+        doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+
+        while (heightLeft >= 0) {
+            position = heightLeft - imgHeight;
+            doc.addPage();
+            doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+        }
+
+        doc.save('data.pdf');
+    });
+});
+
 
 visualizeBtn.addEventListener('click', () => {
     if (!data) {
@@ -67,6 +119,9 @@ visualizeBtn.addEventListener('click', () => {
         return;
     }
 
+    presetTitle.innerText = preset.name;
+    presetDescription.innerText = preset.description;
+    document.getElementById('presetSection').style.display = 'block';
     createChartFromJSON(preset);
 });
 
@@ -159,20 +214,20 @@ function createChartFromJSON(preset) {
                     if (columnsToInclude.length > 0) {
                         return columnsToInclude.includes(index.toString()) && !columnsToExclude.includes(index.toString());
                     }
-    
+
                     return !columnsToExclude.includes(index.toString());
                 });
             });
-    
+
             const pieAggregation = dataWithoutColumns.reduce((acc, row) => {
                 row.forEach((column, index) => {
                     if (!acc[column]) {
                         acc[column] = 0;
                     }
-    
+
                     acc[column]++;
                 });
-    
+
                 return acc;
             }, {});
 
@@ -189,10 +244,10 @@ function buildPieChart(ctx, type, dataAggregation, title = 'Pie Chart') {
     const total = dataValues.reduce((sum, value) => sum + value, 0);
 
     const labels = Object.keys(dataAggregation)
-    .map((label, index) => {
-        const percentage = (dataAggregation[label] / total * 100).toFixed(2) + '%';
-        return `${label} (${percentage})`;
-    });
+        .map((label, index) => {
+            const percentage = (dataAggregation[label] / total * 100).toFixed(2) + '%';
+            return `${label} (${percentage})`;
+        });
 
 
     return new Chart(ctx, {
@@ -311,6 +366,7 @@ function buildLineStyleChart(canvas, type, labels, datasets, title, xAxisLabel) 
 loadCSVDataBtn.addEventListener('click', () => {
     data = Papa.parse(csvInput.value).data;
     updateCSVDataUpload();
+    updateDataLoadingSection();
 });
 
 uploadCSVDataBtn.addEventListener('click', () => {
@@ -327,6 +383,7 @@ uploadCSVDataBtn.addEventListener('click', () => {
                     complete: function (results) {
                         data = results.data;
                         updateCSVDataUpload();
+                        updateDataLoadingSection();
                     },
                     error: function (error) {
                         alert('Error parsing CSV data.');
@@ -349,22 +406,34 @@ function parsePreset(value) {
     }
 }
 
+let presetLoaded = false;
+let dataLoaded = false;
+
+function updateDataLoadingSection() {
+    if (presetLoaded && dataLoaded) {
+        document.getElementById('dataLoadingSection').style.display = 'none';
+    }
+}
+
 loadPresetDataBtn.addEventListener('click', () => {
     preset = parsePreset(presetInput.value);
 
     updatePresetSection();
     updateCSVDataUpload();
+    updateDataLoadingSection();
 });
 
 function updatePresetSection() {
     if (preset) {
         document.getElementById('presetDataUpload').style.display = 'none';
         document.getElementById('loadPresetSuccess').style.display = 'block';
+        presetLoaded = true;
     }
 }
 
 function updateCSVDataUpload() {
     if (data) {
+        dataLoaded = true;
         document.getElementById('csvDataUpload').style.display = 'none';
         document.getElementById('loadCSVSuccess').style.display = 'block';
     }
@@ -384,6 +453,7 @@ uploadPresetDataBtn.addEventListener('click', () => {
 
                 updatePresetSection();
                 updateCSVDataUpload();
+                updateDataLoadingSection();
             };
             reader.readAsText(file);
         }
