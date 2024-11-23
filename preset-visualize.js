@@ -15,11 +15,39 @@ const uploadCSVDataBtn = document.getElementById('uploadCSVDataBtn');
 const presetTitle = document.getElementById('presetTitle');
 const presetDescription = document.getElementById('presetDescription');
 
+const variablesSection = document.getElementById('variablesSection');
+
 const visualizeBtn = document.getElementById('visualizeBtn');
 
 const presets = [];
 
 const presetSelect = document.getElementById('presetSelect');
+
+function displayVariables() {
+    if (!preset) {
+        alert('Please load or upload preset data');
+        return;
+    }
+
+    variablesSection.style.display = 'block';
+    variablesSection.innerHTML = '';
+
+    const variables = preset.variables;
+    console.log(variables);
+    variables.forEach(variable => {
+        // Create a stylish input for the variable
+
+        const div = document.createElement('div');
+        div.classList.add('variable');
+        div.innerHTML = `
+            <label for="${variable.name}">${variable.name}:</label>
+            <input class="variable-input border rounded" type="text" id="${variable.name}" name="${variable.name}">
+        `;
+        variablesSection.appendChild(div);
+    });
+}
+
+let originalPreset
 
 presetSelect.addEventListener('change', (event) => {
     if (event.target.value === '-1') {
@@ -122,6 +150,15 @@ visualizeBtn.addEventListener('click', () => {
     presetTitle.innerText = preset.name;
     presetDescription.innerText = preset.description;
     document.getElementById('presetSection').style.display = 'block';
+
+    variablesSection.querySelectorAll('.variable-input').forEach(input => {
+        const variableName = input.id;
+        const value = input.value;
+
+        preset = JSON.parse(JSON.stringify(originalPreset).replaceAll(`{{${variableName}}}`, value));
+    });
+
+
     createChartFromJSON(preset);
 });
 
@@ -178,6 +215,8 @@ function filterData(data, filters) {
 }
 
 function createChartFromJSON(preset) {
+    // Clear preset charts section
+    document.getElementById('presetCharts').innerHTML = '';
     const container = document.getElementById('presetCharts');
 
     preset.charts.forEach(chartData => {
@@ -504,7 +543,9 @@ function updateDataLoadingSection() {
 
 loadPresetDataBtn.addEventListener('click', () => {
     preset = parsePreset(presetInput.value);
+    originalPreset = preset;
 
+    displayVariables();
     updatePresetSection();
     updateCSVDataUpload();
     updateDataLoadingSection();
@@ -537,7 +578,9 @@ uploadPresetDataBtn.addEventListener('click', () => {
             reader.onload = e => {
                 const jsonData = e.target.result;
                 preset = parsePreset(jsonData);
+                originalPreset = preset;
 
+                displayVariables();
                 updatePresetSection();
                 updateCSVDataUpload();
                 updateDataLoadingSection();

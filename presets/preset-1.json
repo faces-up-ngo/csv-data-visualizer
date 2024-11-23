@@ -1,6 +1,12 @@
 {
     "name": "Preset",
     "description": "Preset Description",
+    "variables": [
+      {
+        "name": "Student Name",
+        "valuesFromColumn": "1"
+      }
+    ],
     "charts": [
       {
         "title": "General Appearance",
@@ -14,13 +20,13 @@
           },
           "yAxis": [
             {
-              "name": "KAM-00004",
+              "name": "{{Student Name}}",
               "column": "3",
               "filters": [
                 {
                   "column": "1",
                   "operation": "=",
-                  "value": "KAM-00004"
+                  "value": "{{Student Name}}"
                 }
               ]
             },
@@ -31,7 +37,7 @@
                 {
                   "column": "1",
                   "operation": "!=",
-                  "value": "KAM-00004"
+                  "value": "{{Student Name}}"
                 }
               ]
             }
