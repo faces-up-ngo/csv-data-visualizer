@@ -3,16 +3,37 @@
     "description": "Preset Description",
     "charts": [
       {
-        "title": "Chart",
+        "title": "General Appearance",
         "type": "line",
         "config": {
           "filters": [],
+          "aggregation": "average",
           "xAxis": {
-            "column": "1"
+            "name": "Assessment Period",
+            "column": "2"
           },
           "yAxis": [
             {
-              "column": "6"
+              "name": "KAM-00004",
+              "column": "3",
+              "filters": [
+                {
+                  "column": "1",
+                  "operation": "=",
+                  "value": "KAM-00004"
+                }
+              ]
+            },
+            {
+              "name": "Average",
+              "column": "3",
+              "filters": [
+                {
+                  "column": "1",
+                  "operation": "!=",
+                  "value": "KAM-00004"
+                }
+              ]
             }
           ]
         }

@@ -159,6 +159,24 @@ function getRandomColor() {
     return chartColors[currentColor++];
 }
 
+function filterOperation(left, right, operation) {
+    if (operation === '=') {
+        return left == right;
+    }
+
+    if (operation === '!=') {
+        return left !== right;
+    }
+
+    return left == right;
+}
+
+function filterData(data, filters) {
+    return data.filter(row => {
+        return filters.every(filter => filterOperation(row[filter.column], filter.value, filter.operation));
+    });
+}
+
 function createChartFromJSON(preset) {
     const container = document.getElementById('presetCharts');
 
@@ -174,26 +192,95 @@ function createChartFromJSON(preset) {
             divContainer.style.width = '50%';
             // Extract data from JSON
             const xAxisColumn = chartData.config.xAxis.column;
-            const yAxisColumns = chartData.config.yAxis.map(y => y.column);
+            const yAxisColumns = chartData.config.yAxis;
             const filters = chartData.config.filters;
+            const aggregation = chartData.config.aggregation;
 
             // Filter data based on filters
-            const filteredData = data.slice(1).filter(row => {
-                return filters.every(filter => row[filter.column] === filter.value);
-            });
+            const filteredData = filterData(data, filters);
+
+            if (aggregation == 'average') {
+                const groupedData = filteredData.slice(1).reduce((acc, row) => {
+                    const key = row[xAxisColumn];
+                    if (!acc[key]) {
+                        acc[key] = [];
+                    }
+
+                    acc[key].push(row);
+                    return acc;
+                }, {});
+
+                const labels = Object.keys(groupedData);
+                const datasets = yAxisColumns.map((yAxis, index) => {
+                    const data = labels.map(label => {
+                        const rows = groupedData[label].filter(row => {
+                            return yAxis.filters.every(filter => {
+                                console.log(row[filter.column], filter.value, filter.operation);
+                                console.log(filterOperation(row[filter.column], filter.value, filter.operation));
+                                return filterOperation(row[filter.column], filter.value, filter.operation);
+                            })
+                        });
+
+                        const sum = rows.reduce((sum, row) => sum + parseFloat(row[yAxis.column]), 0);
+                        return sum / rows.length;
+                    });
+
+                    return {
+                        label: yAxis.name,
+                        data: data
+                    }
+                });
+
+                buildLineStyleChart(canvas, chartData.type, labels, datasets, chartData.title, chartData.config.xAxis.name);
+                return;
+            }
+
+            if (aggregation == 'sum') {
+                const groupedData = filteredData.slice(1).reduce((acc, row) => {
+                    const key = row[xAxisColumn];
+                    if (!acc[key]) {
+                        acc[key] = [];
+                    }
+
+                    acc[key].push(row);
+                    return acc;
+                }, {});
+
+                const labels = Object.keys(groupedData);
+                const datasets = yAxisColumns.map((yAxis, index) => {
+                    const data = labels.map(label => {
+                        const rows = groupedData[label].filter(row => {
+                            return yAxis.filters.every(filter => {
+                                return filterOperation(row[filter.column], filter.value, filter.operation);
+                            })
+                        });
+
+                        return rows.reduce((sum, row) => sum + parseFloat(row[yAxis.column]), 0);
+                    });
+
+                    return {
+                        label: yAxis.name,
+                        data: data
+                    }
+                });
+
+                buildLineStyleChart(canvas, chartData.type, labels, datasets, chartData.title, chartData.config.xAxis.name);
+                return;
+            }
 
             // Extract x and y values
-            const labels = filteredData.map(row => row[xAxisColumn]);
-            const datasets = yAxisColumns.map((yAxisColumn, index) => {
-                const mappedData = data.map(row => parseFloat(row[yAxisColumn]));
+            const labels = filteredData.slice(1).map(row => row[xAxisColumn]);
+            const datasets = yAxisColumns.map((yAxis, index) => {
+                const mappedData = data.slice(1).map(row => parseFloat(row[yAxis.column]));
                 return {
-                    label: data[0][yAxisColumn],
+                    label: yAxis.name,
                     data: mappedData
                 }
             });
 
+
             // Create the chart
-            buildLineStyleChart(canvas, chartData.type, labels, datasets, chartData.title, data[0][xAxisColumn]);
+            buildLineStyleChart(canvas, chartData.type, labels, datasets, chartData.title, chartData.config.xAxis.name);
             return;
         }
 
