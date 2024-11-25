@@ -23,9 +23,22 @@ const presets = [];
 
 const presetSelect = document.getElementById('presetSelect');
 
+document.getElementById('resetBtn').addEventListener('click', () => {
+    // remove preset from query parameter
+    const url = new URL(window.location.href);
+    url.searchParams.delete('preset');
+    window.history.pushState({}, '', url);
+
+    // Reload page
+    location.reload();
+});
+
 function displayVariables() {
     if (!preset) {
-        alert('Please load or upload preset data');
+        return;
+    }
+
+    if (!data) {
         return;
     }
 
@@ -33,9 +46,26 @@ function displayVariables() {
     variablesSection.innerHTML = '';
 
     const variables = preset.variables;
-    console.log(variables);
     variables.forEach(variable => {
         // Create a stylish input for the variable
+
+        let variableValues = [];
+        if (variable.valuesFromColumn) {
+            variableValues = data.slice(1).map(row => row[variable.valuesFromColumn]);
+
+            variableValues = [...new Set(variableValues)];
+            
+            const div = document.createElement('div');
+            div.classList.add('variable');
+            div.innerHTML = `
+                <label for="${variable.name}">${variable.name}:</label>
+                <select class="variable-input border rounded" id="${variable.name}" name="${variable.name}">
+                    <option value="">Select a value</option>
+                    ${variableValues.map(value => `<option value="${value}">${value}</option>`).join('')}
+            `;
+            variablesSection.appendChild(div);
+            return;
+        }
 
         const div = document.createElement('div');
         div.classList.add('variable');
@@ -69,6 +99,15 @@ function displayPresets() {
 }
 
 window.onload = async () => {
+    const currentUrl = new URL(window.location.href);
+    const presetParam = currentUrl.searchParams.get('preset');
+    if (presetParam) {
+        preset = JSON.parse(presetParam);
+        originalPreset = preset;
+        updatePresetSection();
+        return;
+    }
+
     const url = `https://faces-up-ngo.github.io/csv-data-visualizer/presets/preset-`;
 
     for (let i = 1; i <= 100; i++) {
@@ -253,9 +292,11 @@ function createChartFromJSON(preset) {
                 const datasets = yAxisColumns.map((yAxis, index) => {
                     const data = labels.map(label => {
                         const rows = groupedData[label].filter(row => {
+                            if (!yAxis.filters) {
+                                return true;
+                            }
+
                             return yAxis.filters.every(filter => {
-                                console.log(row[filter.column], filter.value, filter.operation);
-                                console.log(filterOperation(row[filter.column], filter.value, filter.operation));
                                 return filterOperation(row[filter.column], filter.value, filter.operation);
                             })
                         });
@@ -491,6 +532,7 @@ function buildLineStyleChart(canvas, type, labels, datasets, title, xAxisLabel) 
 
 loadCSVDataBtn.addEventListener('click', () => {
     data = Papa.parse(csvInput.value).data;
+    displayVariables();
     updateCSVDataUpload();
     updateDataLoadingSection();
 });
@@ -508,6 +550,8 @@ uploadCSVDataBtn.addEventListener('click', () => {
                 Papa.parse(csvData, {
                     complete: function (results) {
                         data = results.data;
+
+                        displayVariables();
                         updateCSVDataUpload();
                         updateDataLoadingSection();
                     },
@@ -555,7 +599,14 @@ function updatePresetSection() {
     if (preset) {
         document.getElementById('presetDataUpload').style.display = 'none';
         document.getElementById('loadPresetSuccess').style.display = 'block';
+        document.getElementById('loadPresetSuccess').querySelector('h3').innerText = `Successfully loaded preset: ${preset.name}`;
+
         presetLoaded = true;
+
+        // set preset as query parameter
+        const url = new URL(window.location.href);
+        url.searchParams.set('preset', JSON.stringify(preset));
+        window.history.pushState({}, '', url);
     }
 }
 

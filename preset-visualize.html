@@ -22,8 +22,13 @@
     <h1 class="text-4xl font-bold text-center text-blue-600 my-4">Visualize CSV Data Using Presets</h1>
     <div id="container" class="max-w-screen-2xl w-9/10 mx-auto bg-white p-8 rounded-lg shadow-lg">
         <div id="dataLoadingSection">
-            <h3 class="text-2xl font-semibold text-center text-blue-500 mb-4">Data Loading</h3>
-
+            
+            <div class="text-center" style="position: relative;">
+                <h3 class="text-2xl font-semibold text-blue-500">Data Loading</h3>
+                <button style="position: absolute; right: 0; top: 0;" id="resetBtn" class="rounded text-white bg-blue-500 p-3">Reset</button>
+            </div>
+            <br>
+            <br>
             <h3 id="loadDataTitle" class="text-xl font-semibold text-center text-blue-500 mb-4">Load Preset</h3>
             <section id="presetDataUpload">
                 <textarea id="presetInput" class="w-full h-40 p-4 border border-gray-300 rounded mb-4"
@@ -39,8 +44,8 @@
                         class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Load
                         Preset</button>
                     <button id="uploadPresetDataBtn"
-                        class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">Upload
-                        Preset</button>
+                        class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">Select
+                        Preset File</button>
                 </div>
             </section>
 
@@ -56,8 +61,8 @@
                     <button id="loadCSVDataBtn" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Load
                         Data</button>
                     <button id="uploadCSVDataBtn"
-                        class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">Upload
-                        Data</button>
+                        class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">Select
+                        Data File</button>
                 </div>
             </section>
             <section id="loadCSVSuccess" class="hidden">
