@@ -37,12 +37,123 @@
     "26": "Ability to demonstrate leadership or take intiative",
     "27": "Observation Notes"
   },
+  "pages": {
+    "1": {
+      "title": "General Development",
+      "sections": {
+        "1": "Section 1",
+        "2": "Section 2"
+      }
+    },
+    "2": {
+      "title": "Second Page",
+      "sectionTitles": {
+        "1": "General Development",
+        "2": "Specific Skills"
+      }
+    }
+  },
   "charts": [
     {
-      "title": "General Appearance Over Time",
-      "type": "line",
+      "page": "1",
+      "section": "1",
+      "title": "General Development",
+      "type": "bar",
+      "config": {
+        "type": "grouped",
+        "xAxis": {
+          "name": "Category",
+          "columns": [
+            "3",
+            "4",
+            "5",
+            "6"
+          ],
+          "datasetColumn": "2",
+          "filters": [
+            {
+              "column": "1",
+              "operation": "=",
+              "value": "{{Student Name}}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "page": "1",
+      "section": "2",
+      "title": "Good General appearance",
+      "type": "pie",
       "config": {
         "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "3"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "1",
+      "section": "2",
+      "title": "Willingness to listen and ask questions",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "4"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "1",
+      "section": "2",
+      "title": "Willing to co-operate",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "5"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "1",
+      "section": "2",
+      "title": "Shows effort and engagement during sessions",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "6"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "1",
+      "section": "3",
+      "title": "Good General Appearance",
+      "type": "line",
+      "config": {
         "aggregation": "average",
         "xAxis": {
           "name": "Assessment Period",
@@ -62,38 +173,17 @@
           },
           {
             "name": "Average",
-            "column": "3",
-            "filters": [
-              {
-                "column": "1",
-                "operation": "!=",
-                "value": "{{Student Name}}"
-              }
-            ]
+            "column": "3"
           }
         ]
       }
     },
     {
-      "title": "Distribution of Willingness to Listen and Ask Questions",
-      "type": "pie",
-      "config": {
-        "filters": [],
-        "columns": {
-          "include": [
-            {
-              "column": "4"
-            }
-          ],
-          "exclude": []
-        }
-      }
-    },
-    {
-      "title": "Willingness Over Time",
+      "page": "1",
+      "section": "3",
+      "title": "Willingness to listen and ask questions",
       "type": "line",
       "config": {
-        "filters": [],
         "aggregation": "average",
         "xAxis": {
           "name": "Assessment Period",
@@ -101,7 +191,7 @@
         },
         "yAxis": [
           {
-            "name": "Listen and ask questions",
+            "name": "{{Student Name}}",
             "column": "4",
             "filters": [
               {
@@ -112,7 +202,26 @@
             ]
           },
           {
-            "name": "Cooperate",
+            "name": "Average",
+            "column": "4"
+          }
+        ]
+      }
+    },
+    {
+      "page": "1",
+      "section": "3",
+      "title": "Willing to co-operate",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
             "column": "5",
             "filters": [
               {
@@ -123,102 +232,40 @@
             ]
           },
           {
-            "name": "Express feelings and emotions verbally",
-            "column": "10",
-            "filters": [
-              {
-                "column": "1",
-                "operation": "=",
-                "value": "{{Student Name}}"
-              }
-            ]
-          },
-          {
-            "name": "Show and share artistic work",
-            "column": "13",
-            "filters": [
-              {
-                "column": "1",
-                "operation": "=",
-                "value": "{{Student Name}}"
-              }
-            ]
-          },
-          {
-            "name": "Experiment with art materials",
-            "column": "14",
-            "filters": [
-              {
-                "column": "1",
-                "operation": "=",
-                "value": "{{Student Name}}"
-              }
-            ]
+            "name": "Average",
+            "column": "5"
           }
         ]
       }
     },
     {
-      "title": "Distribution of General Appearance",
-      "type": "pie",
-      "config": {
-        "filters": [],
-        "columns": {
-          "include": [
-            {
-              "column": "3"
-            }
-          ],
-          "exclude": []
-        }
-      }
-    },
-    {
-      "title": "Average Scores Comparison per Student",
-      "type": "bar",
+      "page": "1",
+      "section": "3",
+      "title": "Shows effort and engagement during sessions",
+      "type": "line",
       "config": {
         "aggregation": "average",
-        "filters": [],
         "xAxis": {
-          "name": "Student Name",
-          "column": "1",
-          "groupBy": "student"
+          "name": "Assessment Period",
+          "column": "2"
         },
         "yAxis": [
           {
-            "name": "General Appearance",
-            "column": "3"
+            "name": "{{Student Name}}",
+            "column": "6",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
           },
           {
-            "name": "Willingness to listen and ask questions",
-            "column": "4"
-          },
-          {
-            "name": "Shows effort and engagement during sessions",
+            "name": "Average",
             "column": "6"
           }
         ]
-      }
-    },
-    {
-      "title": "Correlation Between Willingness to Listen and Engagement",
-      "type": "scatter",
-      "config": {
-        "filters": [
-          {
-            "column": "1",
-            "operation": "=",
-            "value": "{{Student Name}}"
-          }
-        ],
-        "xAxis": {
-          "name": "Willingness to listen and ask questions",
-          "column": "4"
-        },
-        "yAxis": {
-          "name": "Shows effort and engagement during sessions",
-          "column": "6"
-        }
       }
     }
   ]
