@@ -131,7 +131,7 @@ function displayPresets() {
 
 window.onload = async () => {
     const currentUrl = new URL(window.location.href);
-    
+
     geminiApiKey = currentUrl.searchParams.get(GEMINI_API_KEY_QUERY_PARAM);
     if (geminiApiKey) {
         document.getElementById('geminiAPIToken').style.display = 'none';
@@ -542,7 +542,7 @@ function createChartFromJSON(preset) {
         }
 
         divContainer = document.createElement('div');
-        divContainer.style.width = '50%';
+        divContainer.style.width = '45%';
         const canvas = document.createElement('canvas');
 
         pages[chartPage][chartSection].appendChild(divContainer);
@@ -593,6 +593,7 @@ function createChartFromJSON(preset) {
             sectionEntry[1].style.display = 'flex';
             sectionEntry[1].style.flexWrap = 'wrap';
             sectionEntry[1].style.justifyContent = 'center';
+            sectionEntry[1].style.gap = '20px';
             pageDiv.appendChild(sectionEntry[1]);
         });
         container.appendChild(pageDiv);
@@ -600,6 +601,7 @@ function createChartFromJSON(preset) {
 }
 
 function buildPieChart(ctx, type, dataAggregation, title = 'Pie Chart') {
+    title = wrapString(title, 40);
     const dataValues = Object.values(dataAggregation);
     const total = dataValues.reduce((sum, value) => sum + value, 0);
 
@@ -662,6 +664,36 @@ function buildPieChart(ctx, type, dataAggregation, title = 'Pie Chart') {
     });
 }
 
+function wrapString(value, maxLineLength = 10) {
+    const words = value
+        .toString()
+        .split(" ");
+    
+    let line = '';
+    const lines = []
+
+    for (let word of words) {
+        if (line.length === 0) {
+            line = word;
+            continue;
+        }
+
+        if (line.length + word.length > maxLineLength) {
+            lines.push(line);
+            line = word;
+        } else {
+            line += ' ' + word;
+        }
+    }
+    lines.push(line);
+
+    return lines;
+}
+
+function wrapValue(value) {
+    return wrapString(this.getLabelForValue(value));
+}
+
 function buildLineStyleChart(canvas, type, labels, datasets, title, xAxisLabel) {
     new Chart(canvas, {
         type: type,
@@ -680,6 +712,7 @@ function buildLineStyleChart(canvas, type, labels, datasets, title, xAxisLabel) 
                         }
                     },
                     ticks: {
+                        callback: wrapValue,
                         font: {
                             size: 18
                         }
@@ -717,7 +750,8 @@ function buildLineStyleChart(canvas, type, labels, datasets, title, xAxisLabel) 
                     titleFont: {
                         size: 18
                     }
-                }
+                },
+                wrapLabels: {}
             }
         }
     });
@@ -797,9 +831,9 @@ function updatePresetSection() {
         presetLoaded = true;
 
         // set preset as query parameter
-        const url = new URL(window.location.href);
-        url.searchParams.set('preset', JSON.stringify(preset));
-        window.history.pushState({}, '', url);
+        // const url = new URL(window.location.href);
+        // url.searchParams.set('preset', JSON.stringify(preset));
+        // window.history.pushState({}, '', url);
     }
 }
 

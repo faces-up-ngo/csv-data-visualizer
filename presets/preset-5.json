@@ -1,0 +1,320 @@
+{
+  "name": "Student Assessments - Social Interaction Skills",
+  "description": "",
+  "variables": [
+    {
+      "name": "Student Name",
+      "valuesFromColumn": "1"
+    }
+  ],
+  "columns": {
+    "0": "Form Created",
+    "1": "Student Number",
+    "2": "Assessment Period",
+    "3": "Good General appearance",
+    "4": "Willingness to listen and ask questions",
+    "5": "Willing to co-operate",
+    "6": "Shows effort and engagement during sessions",
+    "7": "Ability to identify and name their feelings and emotions",
+    "8": "Ability to demonstrate a strong sense of self",
+    "9": "Ability to show empathy when appropriate",
+    "10": "Willingness to express feelings and emotions verbally",
+    "11": "Willingness to express feelings and emotions through artwork",
+    "12": "Demonstrates imagination  and originality through their works.",
+    "13": "Ability to complete art projects as instructed",
+    "14": "Willingness to show and share artistic work done with others",
+    "15": "Willingness to experiment with art materials",
+    "16": "Ability to use abstraction in their works or titles",
+    "17": "Willingness to concentrate listen and follow facilitator's instructions",
+    "18": "Shows appreciation for others",
+    "19": "Ability to interact with facilitators and others",
+    "20": "Ability to demonstrate good problem solving skills in class",
+    "21": "Willing to freely share tools and art materials with others",
+    "22": "Level of perseverance during difficult tasks",
+    "23": "Ability to keep calm when faced with a challenge or uncertainty",
+    "24": "Displays self-confidence",
+    "25": "Ability to solve problems",
+    "26": "Ability to demonstrate leadership or take intiative",
+    "27": "Observation Notes"
+  },
+  "pages": {
+    "1": {
+      "title": "General Development",
+      "sections": {
+        "1": "Section 1",
+        "2": "Section 2"
+      }
+    },
+    "2": {
+      "title": "Second Page",
+      "sectionTitles": {
+        "1": "General Development",
+        "2": "Specific Skills"
+      }
+    }
+  },
+  "charts": [
+    {
+      "page": "3",
+      "section": "1",
+      "title": "SOCIAL INTERACTION SKILLS",
+      "type": "bar",
+      "config": {
+        "type": "grouped",
+        "xAxis": {
+          "name": "Category",
+          "columns": [
+            "17",
+            "18",
+            "19",
+            "20",
+            "21"
+          ],
+          "datasetColumn": "2",
+          "filters": [
+            {
+              "column": "1",
+              "operation": "=",
+              "value": "{{Student Name}}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "page": "3",
+      "section": "2",
+      "title": "Willingness to concentrate, listen and follow facilitator's instructions",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "17"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "3",
+      "section": "2",
+      "title": "Shows appreciation for others",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "18"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "3",
+      "section": "2",
+      "title": "Ability to interact with facilitators and others",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "19"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "3",
+      "section": "3",
+      "title": "Ability to demonstrate good problem solving skills in class",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "20"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "3",
+      "section": "3",
+      "title": "Willing to freely share tools and art materials with others",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "21"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "3",
+      "section": "4",
+      "title": "Willingness to concentrate, listen and follow facilitator's instructions",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "17",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "17"
+          }
+        ]
+      }
+    },
+    {
+      "page": "3",
+      "section": "4",
+      "title": "Shows appreciation for others",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "18",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "18"
+          }
+        ]
+      }
+    },
+    {
+      "page": "3",
+      "section": "4",
+      "title": "Ability to interact with facilitators and others",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "19",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "19"
+          }
+        ]
+      }
+    },
+    {
+      "page": "3",
+      "section": "4",
+      "title": "Ability to demonstrate good problem solving skills in class",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "20",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "20"
+          }
+        ]
+      }
+    },
+    {
+      "page": "3",
+      "section": "4",
+      "title": "Willing to freely share tools and art materials with others",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "21",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "21"
+          }
+        ]
+      }
+    }
+  ]
+}
