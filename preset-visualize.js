@@ -187,8 +187,10 @@ document.getElementById('exportPDF').addEventListener('click', () => {
     let position = 30;
     doc.text(presetDescription.innerText, 105, position, null, null, 'center');
 
-    // Hide buttonsContainer and show chartsContainer
+    // Hide empty buttonsContainer for print
+    Array.from(document.getElementsByClassName("empty")).forEach(el => el.style.display = "none");
 
+    // Render  chartsContainer
     html2canvas(document.getElementById('presetCharts')).then(canvas => {
         const imgData = canvas.toDataURL('image/png');
         const imgWidth = 210; // A4 width in mm
@@ -209,6 +211,9 @@ document.getElementById('exportPDF').addEventListener('click', () => {
         }
 
         doc.save('data.pdf');
+
+        // Hide empty buttonsContainer for print
+        Array.from(document.getElementsByClassName("empty")).forEach(el => el.style.display = "none");
     });
 });
 
@@ -545,8 +550,7 @@ function buildInsightsBtn(container, data) {
     insightsBtn.innerText = 'Generate Insights';
     insightsBtn.classList.add('border', 'rounded', 'bg-blue-500', 'text-white', 'p-2', 'my-2');
     insightsBtn.onclick = async () => {
-        // busy
-
+        // add busy indication
         insightsBtn.innerText = '';
         insightsBtn.insertAdjacentHTML('beforeend', '<svg class="animate-spin mt-0.5 mr-3 h-5 w-5 text-white" style="float: left" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">\n' +
             '      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>\n' +
@@ -571,8 +575,9 @@ function buildInsightsBtn(container, data) {
 
         if (response.status === 200) {
             const insights = responseBody.candidates[0].content.parts[0].text;
+            // replace button with the generated insights
             insightsDiv.removeChild(insightsBtn);
-            insightsDiv.classList.remove("text-center");
+            insightsDiv.classList.remove("text-center", "empty");
             insightsDiv.classList.add('markdown-content', 'border', 'rounded', 'p-4', 'my-4', 'bg-blue-100');
 
             // Convert Markdown to HTML and set it as the inner HTML of the div
@@ -586,7 +591,7 @@ function buildInsightsBtn(container, data) {
     }
 
     const insightsDiv = document.createElement('div');
-    insightsDiv.classList.add('markdown-content', 'text-center', 'border', 'rounded', 'p-4', 'my-4', 'bg-blue-100');
+    insightsDiv.classList.add('markdown-content', 'text-center', 'border', 'rounded', 'p-4', 'my-4', 'bg-blue-100', 'empty');
     insightsDiv.appendChild(insightsBtn);
     return insightsDiv;
 }
