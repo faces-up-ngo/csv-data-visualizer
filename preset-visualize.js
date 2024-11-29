@@ -211,7 +211,7 @@ document.getElementById('exportPDF').addEventListener('click', () => {
         }
 
         let studentName = document.getElementById("Student Name").value;
-        doc.save(studentName ? 'report_' + studentName + '.pdf' : 'report.pdf');
+        doc.save(studentName ? 'report_' + presetTitle.innerText.toLowerCase().replaceAll(/[^a-zA-Z0-9\s]/g, "").replaceAll(/\s+/g, "_") + '_' + studentName + '.pdf' : 'report.pdf');
 
         // Hide empty buttonsContainer for print
         Array.from(document.getElementsByClassName("empty")).forEach(el => el.style.display = "none");
