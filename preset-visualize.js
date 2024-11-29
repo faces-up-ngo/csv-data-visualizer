@@ -282,9 +282,19 @@ function getSemanticColorByPerformanceCode(code) {
     return semanticColors[0]; // undefined 
 }
 
+function getSemanticColorByLabel(label) {
+    const code = extractCodeFromLabel(label);
+    return getSemanticColorByPerformanceCode(code);
+}
+
 function getSemanticBorderColorByPerformanceCode(code) {
-    semanticColor = getSemanticColorByPerformanceCode(code);
+    const semanticColor = getSemanticColorByPerformanceCode(code);
     return makeDarkerColor(semanticColor);
+}
+
+function getSemanticBorderColorByLabel(label) {
+    const code = extractCodeFromLabel(label);
+    return getSemanticBorderColorByPerformanceCode(code);
 }
 
 function makeDarkerColor(color) {
@@ -307,6 +317,11 @@ function makeDarkerColor(color) {
 
     // Construct the new rgba string
     return `rgba(${r}, ${g}, ${b}, ${a})`;
+}
+
+function extractCodeFromLabel(label) {
+    const code = parseInt(label.match(/^\d/)[0]);
+    return code;
 }
 
 function getRandomColor() {
@@ -663,9 +678,8 @@ function buildPieChart(ctx, type, dataAggregation, title = 'Pie Chart') {
             labels: labels,
             datasets: [{
                 data: dataValues,
-                //backgroundColor: dataValues.map((value) => getSemanticColorByPerformanceCode(value)),
-                backgroundColor: labels.map(() => getRandomColor()),
-                borderColor: labels.map(() => getRandomColor()),
+                backgroundColor: labels.map((label) => getSemanticColorByLabel(label)),
+                borderColor: labels.map((label) => getSemanticBorderColorByLabel(label)),
                 borderWidth: 3
             }]
         },
