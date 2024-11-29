@@ -1,6 +1,3 @@
-
-
-
 let preset = null
 let data = null;
 
@@ -23,15 +20,50 @@ const presets = [];
 
 const presetSelect = document.getElementById('presetSelect');
 
-document.getElementById('resetBtn').addEventListener('click', () => {
-    // remove preset from query parameter
+const GEMINI_API_KEY_QUERY_PARAM = 'gemini-api-key';
+
+let geminiApiKey;
+
+
+
+const loadNewGeminiTokenBtn = document.getElementById('loadNewGeminiTokenBtn');
+loadNewGeminiTokenBtn.addEventListener('click', () => {
+    document.getElementById('geminiAPITokenInput').value = '';
+    document.getElementById('geminiAPIToken').style.display = 'block';
+    document.getElementById('loadGeminiSuccess').style.display = 'none';
+});
+
+const loadGeminiAPITokenBtn = document.getElementById('loadGeminiAPITokenBtn');
+loadGeminiAPITokenBtn.addEventListener('click', () => {
+    geminiApiKey = document.getElementById('geminiAPITokenInput').value;
+    const url = new URL(window.location.href);
+    url.searchParams.delete(GEMINI_API_KEY_QUERY_PARAM);
+    url.searchParams.set(GEMINI_API_KEY_QUERY_PARAM, geminiApiKey);
+
+    window.history.pushState({}, '', url);
+
+    document.getElementById('geminiAPIToken').style.display = 'none';
+    document.getElementById('loadGeminiSuccess').style.display = 'block';
+});
+
+const loadNewPresetBtn = document.getElementById('loadNewPresetBtn');
+
+loadNewPresetBtn.addEventListener('click', () => {
+    preset = null;
+    originalPreset = null;
+    presetInput.value = '';
+    presetTitle.innerText = '';
+    presetDescription.innerText = '';
+    document.getElementById('presetDataUpload').style.display = 'block';
+    document.getElementById('loadPresetSuccess').style.display = 'none';
+    document.getElementById('presetSection').style.display = 'none';
+    document.getElementById('presetCharts').innerHTML = '';
+    presetLoaded = false;
     const url = new URL(window.location.href);
     url.searchParams.delete('preset');
     window.history.pushState({}, '', url);
-
-    // Reload page
-    location.reload();
 });
+
 
 function displayVariables() {
     if (!preset) {
@@ -54,7 +86,7 @@ function displayVariables() {
             variableValues = data.slice(1).map(row => row[variable.valuesFromColumn]);
 
             variableValues = [...new Set(variableValues)];
-            
+
             const div = document.createElement('div');
             div.classList.add('variable');
             div.innerHTML = `
@@ -78,7 +110,6 @@ function displayVariables() {
 }
 
 let originalPreset
-
 presetSelect.addEventListener('change', (event) => {
     if (event.target.value === '-1') {
         presetInput.value = '';
@@ -100,6 +131,13 @@ function displayPresets() {
 
 window.onload = async () => {
     const currentUrl = new URL(window.location.href);
+
+    geminiApiKey = currentUrl.searchParams.get(GEMINI_API_KEY_QUERY_PARAM);
+    if (geminiApiKey) {
+        document.getElementById('geminiAPIToken').style.display = 'none';
+        document.getElementById('loadGeminiSuccess').style.display = 'block';
+    }
+
     const presetParam = currentUrl.searchParams.get('preset');
     if (presetParam) {
         preset = JSON.parse(presetParam);
@@ -248,165 +286,322 @@ function filterOperation(left, right, operation) {
 }
 
 function filterData(data, filters) {
+    if (!filters || filters.length === 0) {
+        return data;
+    }
+
     return data.filter(row => {
         return filters.every(filter => filterOperation(row[filter.column], filter.value, filter.operation));
     });
 }
 
-function createChartFromJSON(preset) {
-    // Clear preset charts section
-    document.getElementById('presetCharts').innerHTML = '';
-    const container = document.getElementById('presetCharts');
+function createGroupedBarLineChart(canvas, chart, data) {
+    const labels = chart.config.xAxis.columns.map(column => data[0][column]);
 
-    preset.charts.forEach(chartData => {
-        // Create a canvas element for the chart
-        const divContainer = document.createElement('div');
-        container.appendChild(divContainer);
+    const filteredData = filterData(data, chart.config.xAxis.filters);
 
-        const canvas = document.createElement('canvas');
-        divContainer.appendChild(canvas)
+    const datasetValues = filteredData.map(row => row[chart.config.xAxis.datasetColumn]);
 
-        if (chartData.type === 'line' || chartData.type === 'bar') {
-            divContainer.style.width = '50%';
-            // Extract data from JSON
-            const xAxisColumn = chartData.config.xAxis.column;
-            const yAxisColumns = chartData.config.yAxis;
-            const filters = chartData.config.filters;
-            const aggregation = chartData.config.aggregation;
-
-            // Filter data based on filters
-            const filteredData = filterData(data, filters);
-
-            if (aggregation == 'average') {
-                const groupedData = filteredData.slice(1).reduce((acc, row) => {
-                    const key = row[xAxisColumn];
-                    if (!acc[key]) {
-                        acc[key] = [];
-                    }
-
-                    acc[key].push(row);
-                    return acc;
-                }, {});
-
-                const labels = Object.keys(groupedData);
-                const datasets = yAxisColumns.map((yAxis, index) => {
-                    const data = labels.map(label => {
-                        const rows = groupedData[label].filter(row => {
-                            if (!yAxis.filters) {
-                                return true;
-                            }
-
-                            return yAxis.filters.every(filter => {
-                                return filterOperation(row[filter.column], filter.value, filter.operation);
-                            })
-                        });
-
-                        const sum = rows.reduce((sum, row) => sum + parseFloat(row[yAxis.column]), 0);
-                        return sum / rows.length;
-                    });
-
-                    return {
-                        label: yAxis.name,
-                        data: data
-                    }
-                });
-
-                buildLineStyleChart(canvas, chartData.type, labels, datasets, chartData.title, chartData.config.xAxis.name);
-                return;
-            }
-
-            if (aggregation == 'sum') {
-                const groupedData = filteredData.slice(1).reduce((acc, row) => {
-                    const key = row[xAxisColumn];
-                    if (!acc[key]) {
-                        acc[key] = [];
-                    }
-
-                    acc[key].push(row);
-                    return acc;
-                }, {});
-
-                const labels = Object.keys(groupedData);
-                const datasets = yAxisColumns.map((yAxis, index) => {
-                    const data = labels.map(label => {
-                        const rows = groupedData[label].filter(row => {
-                            return yAxis.filters.every(filter => {
-                                return filterOperation(row[filter.column], filter.value, filter.operation);
-                            })
-                        });
-
-                        return rows.reduce((sum, row) => sum + parseFloat(row[yAxis.column]), 0);
-                    });
-
-                    return {
-                        label: yAxis.name,
-                        data: data
-                    }
-                });
-
-                buildLineStyleChart(canvas, chartData.type, labels, datasets, chartData.title, chartData.config.xAxis.name);
-                return;
-            }
-
-            // Extract x and y values
-            const labels = filteredData.slice(1).map(row => row[xAxisColumn]);
-            const datasets = yAxisColumns.map((yAxis, index) => {
-                const mappedData = data.slice(1).map(row => parseFloat(row[yAxis.column]));
-                return {
-                    label: yAxis.name,
-                    data: mappedData
-                }
-            });
-
-
-            // Create the chart
-            buildLineStyleChart(canvas, chartData.type, labels, datasets, chartData.title, chartData.config.xAxis.name);
-            return;
+    const datasets = datasetValues.map(value => {
+        const data = chart.config.xAxis.columns.map(column => {
+            return filteredData.filter(row => row[chart.config.xAxis.datasetColumn] === value)
+                .reduce((sum, row) => sum + parseFloat(row[column]), 0);
+        });
+        return {
+            label: value,
+            data: data
         }
+    })
 
-        if (chartData.type === 'pie' || chartData.type === 'doughnut') {
-            divContainer.style.width = '25%';
-            const columnsToInclude = chartData.config.columns.include.map(obj => obj.column);
-            const columnsToExclude = chartData.config.columns.exclude.map(obj => obj.column);
+    buildLineStyleChart(canvas, chart.type, labels, datasets, chart.title, chart.config.xAxis.name);
 
-            const filters = chartData.config.filters;
+    return {
+        labels,
+        datasets
+    };
+}
 
-            // Filter data based on filters
-            const filteredData = data.slice(1).filter(row => {
-                return filters.every(filter => row[filter.column] === filter.value);
-            });
+function createBarLineChartWithoutAggregation(canvas, chart, data) {
+    const labels = filterData(data, chart.config.xAxis.filters)
+        .slice(1)
+        .map(row => row[chart.config.xAxis.column]);
 
-            const dataWithoutColumns = filteredData.slice(1).map(row => {
-                return row.filter((column, index) => {
-                    if (columnsToInclude.length > 0) {
-                        return columnsToInclude.includes(index.toString()) && !columnsToExclude.includes(index.toString());
-                    }
+    const dataset = chart.config.yAxis.map(yAxis => {
+        const values = filterData(data, yAxis.filters)
+            .slice(1)
+            .map(row => parseFloat(row[yAxis.column]));
+        return {
+            label: yAxis.name,
+            data: values
+        }
+    });
 
-                    return !columnsToExclude.includes(index.toString());
-                });
-            });
+    buildLineStyleChart(canvas, chart.type, labels, dataset, chart.title, chart.config.xAxis.name);
+    return {
+        labels,
+        dataset
+    };
+}
 
-            const pieAggregation = dataWithoutColumns.reduce((acc, row) => {
-                row.forEach((column, index) => {
-                    if (!acc[column]) {
-                        acc[column] = 0;
-                    }
+function createBarLineChartWithAggregation(canvas, chart, data, aggregation) {
+    if (aggregation === 'average') {
+        const groupedData = filterData(data, chart.config.xAxis.filters)
+            .slice(1)
+            .reduce((acc, row) => {
+                const key = row[chart.config.xAxis.column];
+                if (!acc[key]) {
+                    acc[key] = [];
+                }
 
-                    acc[column]++;
-                });
-
+                acc[key].push(row);
                 return acc;
             }, {});
 
-            buildPieChart(canvas, chartData.type, pieAggregation, chartData.title);
+        const labels = Object.keys(groupedData);
+
+
+        const datasets = chart.config.yAxis.map((yAxis, index) => {
+            const data = labels.map(label => {
+                const rows = groupedData[label].filter(row => {
+                    if (!yAxis.filters) {
+                        return true;
+                    }
+
+                    return yAxis.filters.every(filter => {
+                        return filterOperation(row[filter.column], filter.value, filter.operation);
+                    })
+                });
+
+                const sum = rows.reduce((sum, row) => sum + parseFloat(row[yAxis.column]), 0);
+                return sum / rows.length;
+            });
+
+            return {
+                label: yAxis.name,
+                data: data
+            }
+        });
+
+        buildLineStyleChart(canvas, chart.type, labels, datasets, chart.title, chart.config.xAxis.name);
+        return {
+            labels,
+            datasets
+        }
+    }
+
+    if (aggregation === 'sum') {
+        const groupedData = filterData(data, chart.config.xAxis.filters)
+            .slice(1)
+            .reduce((acc, row) => {
+                const key = row[chart.config.xAxis.column];
+                if (!acc[key]) {
+                    acc[key] = [];
+                }
+
+                acc[key].push(row);
+                return acc;
+            }, {});
+        const labels = Object.keys(groupedData);
+
+        const datasets = chart.config.yAxis.map((yAxis, index) => {
+            const data = labels.map(label => {
+                const rows = groupedData[label].filter(row => {
+                    return yAxis.filters.every(filter => {
+                        return filterOperation(row[filter.column], filter.value, filter.operation);
+                    })
+                });
+
+                return rows.reduce((sum, row) => sum + parseFloat(row[yAxis.column]), 0);
+            });
+
+            return {
+                label: yAxis.name,
+                data: data
+            }
+        });
+
+        buildLineStyleChart(canvas, chart.type, labels, datasets, chart.title, chart.config.xAxis.name);
+        return {
+            labels,
+            datasets
+        };
+    }
+}
+
+function createBarLineChart(canvas, chart, data) {
+    if (chart.config.type === 'grouped') {
+        return createGroupedBarLineChart(canvas, chart, data);
+    }
+
+    const aggregation = chart.config.aggregation;
+
+    if (!aggregation) {
+        return createBarLineChartWithoutAggregation(canvas, chart, data);
+    }
+
+    return createBarLineChartWithAggregation(canvas, chart, data, aggregation);
+}
+
+function createPieDoughnutChart(canvas, chart, data) {
+    const columnsToInclude = chart.config.columns.include.map(obj => obj.column);
+    const columnsToExclude = chart.config.columns.exclude.map(obj => obj.column);
+
+    const filters = chart.config.filters;
+
+    // Filter data based on filters
+    const filteredData = data.slice(1).filter(row => {
+        return filters.every(filter => row[filter.column] === filter.value);
+    });
+
+    const dataWithoutColumns = filteredData.slice(1).map(row => {
+        return row.filter((column, index) => {
+            if (columnsToInclude.length > 0) {
+                return columnsToInclude.includes(index.toString()) && !columnsToExclude.includes(index.toString());
+            }
+
+            return !columnsToExclude.includes(index.toString());
+        });
+    });
+
+    const pieAggregation = dataWithoutColumns.reduce((acc, row) => {
+        row.forEach((column, index) => {
+            if (!acc[column]) {
+                acc[column] = 0;
+            }
+
+            acc[column]++;
+        });
+
+        return acc;
+    }, {});
+
+    buildPieChart(canvas, chart.type, pieAggregation, chart.title);
+
+    return pieAggregation;
+}
+
+function buildInsightsBtn(container, data) {
+    const insightsBtn = document.createElement('button');
+    insightsBtn.innerText = 'Generate Insights';
+    insightsBtn.classList.add('border', 'rounded', 'bg-blue-500', 'text-white', 'p-2', 'my-2');
+    insightsBtn.onclick = async () => {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${geminiApiKey}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{
+                        text: `The data refers to students in the FacesUP org. Generate insights with bullets up to 3 bullets about this data: ${JSON.stringify(data)}`
+                    }]
+                }]
+            })
+        });
+
+        const responseBody = await response.json();
+
+        if (response.status === 200) {
+            const insights = responseBody.candidates[0].content.parts[0].text;
+            const insightsDiv = document.createElement('div');
+            insightsDiv.classList.add('markdown-content', 'border', 'rounded', 'p-4', 'my-4', 'bg-blue-100');
+
+            // Convert Markdown to HTML and set it as the inner HTML of the div
+            insightsDiv.innerHTML = marked(insights);
+
+            container.appendChild(insightsDiv);
+            return;
+        }
+
+        alert('Error generating insights');
+    }
+
+    const insightsDiv = document.createElement('div');
+    insightsDiv.classList.add('markdown-content', 'text-center', 'border', 'rounded', 'p-4', 'my-4', 'bg-blue-100');
+    insightsDiv.appendChild(insightsBtn);
+    return insightsDiv;
+}
+
+function createChartFromJSON(preset) {
+    document.getElementById('presetCharts').innerHTML = '';
+    const container = document.getElementById('presetCharts');
+
+    const pages = {};
+
+    preset.charts.forEach(chart => {
+        let divContainer;
+
+        let chartPage = chart.page ? chart.page : 0;
+        let chartSection = chart.section ? chart.section : 0;
+
+        if (!pages[chartPage]) {
+            pages[chartPage] = {};
+            pages[chartPage][chartSection] = document.createElement('div');
+        } else if (!pages[chartPage][chartSection]) {
+            pages[chartPage][chartSection] = document.createElement('div');
+        }
+
+        divContainer = document.createElement('div');
+        divContainer.style.width = '45%';
+        const canvas = document.createElement('canvas');
+
+        pages[chartPage][chartSection].appendChild(divContainer);
+
+        const filteredData = filterData(data, chart.config.filters);
+
+        if (chart.type === 'line' || chart.type === 'bar') {
+            const data = createBarLineChart(canvas, chart, filteredData);
+
+            divContainer.appendChild(canvas)
+            if (geminiApiKey) {
+                const insightsBtn = buildInsightsBtn(divContainer, data);
+                divContainer.appendChild(insightsBtn);
+            }
+
 
             return;
         }
 
+        if (chart.type === 'pie' || chart.type === 'doughnut') {
+            divContainer.style.width = '25%';
+            const data = createPieDoughnutChart(canvas, chart, filteredData);
+
+            divContainer.appendChild(canvas)
+
+            if (geminiApiKey) {
+                const insightsBtn = buildInsightsBtn(divContainer, data);
+                divContainer.appendChild(insightsBtn);
+            }
+        }
+    });
+
+    Object.entries(pages).forEach(pageEntry => {
+        const pageDiv = document.createElement('div');
+        pageDiv.style.width = '100%';
+
+        // const pageTitle = document.createElement("h2");
+        // pageTitle.classList.add('text-2xl', 'font-bold', 'text-center', 'text-blue-600', 'my-4');
+        // const title = preset.pages[pageEntry[0]]?.title ? preset.pages[pageEntry[0]].title : "Data Visualization"; ;
+        // pageTitle.innerText = title;
+        // pageDiv.appendChild(pageTitle);
+
+        Object.entries(pageEntry[1]).forEach(sectionEntry => {
+            // const sectionTitle = document.createElement("h3");
+            // sectionTitle.classList.add('text-xl', 'font-bold', 'text-center', 'text-blue-600', 'my-4');
+            // sectionTitle.innerText = preset.pages[pageEntry[0]]?.sections[sectionEntry[0]]?.title ? preset.pages[pageEntry[0]].sections[sectionEntry[0]].title : "Section";
+            // sectionEntry[1].appendChild(sectionTitle);
+            sectionEntry[1].style.display = 'flex';
+            sectionEntry[1].style.flexWrap = 'wrap';
+            sectionEntry[1].style.justifyContent = 'center';
+            sectionEntry[1].style.gap = '20px';
+            pageDiv.appendChild(sectionEntry[1]);
+        });
+        container.appendChild(pageDiv);
     });
 }
 
 function buildPieChart(ctx, type, dataAggregation, title = 'Pie Chart') {
+    title = wrapString(title, 40);
     const dataValues = Object.values(dataAggregation);
     const total = dataValues.reduce((sum, value) => sum + value, 0);
 
@@ -469,6 +664,36 @@ function buildPieChart(ctx, type, dataAggregation, title = 'Pie Chart') {
     });
 }
 
+function wrapString(value, maxLineLength = 10) {
+    const words = value
+        .toString()
+        .split(" ");
+    
+    let line = '';
+    const lines = []
+
+    for (let word of words) {
+        if (line.length === 0) {
+            line = word;
+            continue;
+        }
+
+        if (line.length + word.length > maxLineLength) {
+            lines.push(line);
+            line = word;
+        } else {
+            line += ' ' + word;
+        }
+    }
+    lines.push(line);
+
+    return lines;
+}
+
+function wrapValue(value) {
+    return wrapString(this.getLabelForValue(value));
+}
+
 function buildLineStyleChart(canvas, type, labels, datasets, title, xAxisLabel) {
     new Chart(canvas, {
         type: type,
@@ -487,6 +712,7 @@ function buildLineStyleChart(canvas, type, labels, datasets, title, xAxisLabel) 
                         }
                     },
                     ticks: {
+                        callback: wrapValue,
                         font: {
                             size: 18
                         }
@@ -524,7 +750,8 @@ function buildLineStyleChart(canvas, type, labels, datasets, title, xAxisLabel) 
                     titleFont: {
                         size: 18
                     }
-                }
+                },
+                wrapLabels: {}
             }
         }
     });
@@ -604,9 +831,9 @@ function updatePresetSection() {
         presetLoaded = true;
 
         // set preset as query parameter
-        const url = new URL(window.location.href);
-        url.searchParams.set('preset', JSON.stringify(preset));
-        window.history.pushState({}, '', url);
+        // const url = new URL(window.location.href);
+        // url.searchParams.set('preset', JSON.stringify(preset));
+        // window.history.pushState({}, '', url);
     }
 }
 

@@ -14,6 +14,17 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+<style>
+    .markdown-content ul {
+        list-style-type: disc;
+        margin-left: 1.5rem;
+    }
+
+    .markdown-content ol {
+        list-style-type: decimal;
+        margin-left: 1.5rem;
+    }
+</style>
 
 <body class="bg-gray-100 text-gray-800">
     <div class="text-right p-4">
@@ -22,13 +33,22 @@
     <h1 class="text-4xl font-bold text-center text-blue-600 my-4">Visualize CSV Data Using Presets</h1>
     <div id="container" class="max-w-screen-2xl w-9/10 mx-auto bg-white p-8 rounded-lg shadow-lg">
         <div id="dataLoadingSection">
-            
-            <div class="text-center" style="position: relative;">
-                <h3 class="text-2xl font-semibold text-blue-500">Data Loading</h3>
-                <button style="position: absolute; right: 0; top: 0;" id="resetBtn" class="rounded text-white bg-blue-500 p-3">Reset</button>
-            </div>
-            <br>
-            <br>
+            <h3 id="loadDataTitle" class="text-xl font-semibold text-center text-blue-500 mb-4">Gemini API Token For AI
+                Insights</h3>
+            <section id="geminiAPIToken">
+                <input id="geminiAPITokenInput" type="password" class="w-full p-4 border border-gray-300 rounded mb-4"
+                    placeholder="Paste your Gemini API Token here"></input>
+                <div class="buttons flex gap-4 mb-4">
+                    <button id="loadGeminiAPITokenBtn"
+                        class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Load
+                        Token</button>
+                </div>
+            </section>
+            <section id="loadGeminiSuccess" class="hidden">
+                <h3 class="text-xl font-semibold text-center mb-4">Token Successfully Loaded</h3>
+                <button id="loadNewGeminiTokenBtn" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Load new token</button>
+            </section>
+
             <h3 id="loadDataTitle" class="text-xl font-semibold text-center text-blue-500 mb-4">Load Preset</h3>
             <section id="presetDataUpload">
                 <textarea id="presetInput" class="w-full h-40 p-4 border border-gray-300 rounded mb-4"
@@ -51,6 +71,7 @@
 
             <section id="loadPresetSuccess" class="hidden">
                 <h3 class="text-xl font-semibold text-center mb-4">Data Successfully Loaded</h3>
+                <button id="loadNewPresetBtn" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Load new preset</button>
             </section>
 
             <h3 id="loadDataTitle" class="text-xl font-semibold text-center text-blue-500 mb-4">Load CSV Data</h3>
@@ -89,7 +110,20 @@
 
     </div>
 
-    <script src="preset-visualize.js"></script>
+    <!-- <script type="module">
+        import { pipeline, env } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers";
+
+        async function test() {
+            const generator = await pipeline('text-generation', 'Xenova/LaMini-Cerebras-590M', { model_file_name: 'decoder_model_merged'} );
+            const result = await generator("Write me a recipe for chicken soup", {max_length: 100});    
+
+            console.log(result)
+        }
+
+        test();
+    </script> -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@3.0.7/marked.min.js"></script>
+    <script type="module" src="preset-visualize.js"></script>
 </body>
 
 </html>

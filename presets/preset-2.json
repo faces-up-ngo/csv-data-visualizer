@@ -1,6 +1,6 @@
 {
-  "name": "Student Assessments - General Development",
-  "description": "Various charts depicting student assessment metrics over time",
+  "name": "Student Assessments - Emotional Development",
+  "description": "",
   "variables": [
     {
       "name": "Student Name",
@@ -55,19 +55,20 @@
   },
   "charts": [
     {
-      "page": "1",
+      "page": "2",
       "section": "1",
-      "title": "General Development",
+      "title": "EMOTIONAL DEVELOPMENT",
       "type": "bar",
       "config": {
         "type": "grouped",
         "xAxis": {
           "name": "Category",
           "columns": [
-            "3",
-            "4",
-            "5",
-            "6"
+            "7",
+            "8",
+            "9",
+            "10",
+            "11"
           ],
           "datasetColumn": "2",
           "filters": [
@@ -81,16 +82,16 @@
       }
     },
     {
-      "page": "1",
+      "page": "2",
       "section": "2",
-      "title": "Good General appearance",
+      "title": "Ability to identify and name their feelings and emotions",
       "type": "pie",
       "config": {
         "filters": [],
         "columns": {
           "include": [
             {
-              "column": "3"
+              "column": "7"
             }
           ],
           "exclude": []
@@ -98,16 +99,16 @@
       }
     },
     {
-      "page": "1",
+      "page": "2",
       "section": "2",
-      "title": "Willingness to listen and ask questions",
+      "title": "Ability to demonstrate a strong sense of self",
       "type": "pie",
       "config": {
         "filters": [],
         "columns": {
           "include": [
             {
-              "column": "4"
+              "column": "8"
             }
           ],
           "exclude": []
@@ -115,16 +116,16 @@
       }
     },
     {
-      "page": "1",
+      "page": "2",
       "section": "2",
-      "title": "Willing to co-operate",
+      "title": "Ability to show empathy when appropriate",
       "type": "pie",
       "config": {
         "filters": [],
         "columns": {
           "include": [
             {
-              "column": "5"
+              "column": "9"
             }
           ],
           "exclude": []
@@ -132,26 +133,43 @@
       }
     },
     {
-      "page": "1",
-      "section": "2",
-      "title": "Shows effort and engagement during sessions",
-      "type": "pie",
-      "config": {
-        "filters": [],
-        "columns": {
-          "include": [
-            {
-              "column": "6"
-            }
-          ],
-          "exclude": []
-        }
-      }
-    },
-    {
-      "page": "1",
+      "page": "2",
       "section": "3",
-      "title": "Good General Appearance",
+      "title": "Willingness to express feelings and emotions verbally",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "10"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "2",
+      "section": "3",
+      "title": "Willingness to express feelings and emotions through artwork",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "11"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "2",
+      "section": "4",
+      "title": "Ability to identify and name their feelings and emotions",
       "type": "line",
       "config": {
         "aggregation": "average",
@@ -162,7 +180,7 @@
         "yAxis": [
           {
             "name": "{{Student Name}}",
-            "column": "3",
+            "column": "7",
             "filters": [
               {
                 "column": "1",
@@ -173,15 +191,15 @@
           },
           {
             "name": "Average",
-            "column": "3"
+            "column": "7"
           }
         ]
       }
     },
     {
-      "page": "1",
-      "section": "3",
-      "title": "Willingness to listen and ask questions",
+      "page": "2",
+      "section": "4",
+      "title": "Ability to demonstrate a strong sense of self",
       "type": "line",
       "config": {
         "aggregation": "average",
@@ -192,7 +210,7 @@
         "yAxis": [
           {
             "name": "{{Student Name}}",
-            "column": "4",
+            "column": "8",
             "filters": [
               {
                 "column": "1",
@@ -203,15 +221,15 @@
           },
           {
             "name": "Average",
-            "column": "4"
+            "column": "8"
           }
         ]
       }
     },
     {
-      "page": "1",
-      "section": "3",
-      "title": "Willing to co-operate",
+      "page": "2",
+      "section": "4",
+      "title": "Ability to show empathy when appropriate",
       "type": "line",
       "config": {
         "aggregation": "average",
@@ -222,7 +240,7 @@
         "yAxis": [
           {
             "name": "{{Student Name}}",
-            "column": "5",
+            "column": "9",
             "filters": [
               {
                 "column": "1",
@@ -233,15 +251,15 @@
           },
           {
             "name": "Average",
-            "column": "5"
+            "column": "9"
           }
         ]
       }
     },
     {
-      "page": "1",
-      "section": "3",
-      "title": "Shows effort and engagement during sessions",
+      "page": "2",
+      "section": "4",
+      "title": "Willingness to express feelings and emotions verbally",
       "type": "line",
       "config": {
         "aggregation": "average",
@@ -252,7 +270,7 @@
         "yAxis": [
           {
             "name": "{{Student Name}}",
-            "column": "6",
+            "column": "10",
             "filters": [
               {
                 "column": "1",
@@ -263,7 +281,37 @@
           },
           {
             "name": "Average",
-            "column": "6"
+            "column": "10"
+          }
+        ]
+      }
+    },
+    {
+      "page": "2",
+      "section": "4",
+      "title": "Willingness to express feelings and emotions through artwork",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "11",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "11"
           }
         ]
       }

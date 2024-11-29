@@ -1,6 +1,6 @@
 {
-  "name": "Student Assessments - General Development",
-  "description": "Various charts depicting student assessment metrics over time",
+  "name": "Student Assessments - Social Interaction Skills",
+  "description": "",
   "variables": [
     {
       "name": "Student Name",
@@ -55,19 +55,20 @@
   },
   "charts": [
     {
-      "page": "1",
+      "page": "3",
       "section": "1",
-      "title": "General Development",
+      "title": "SOCIAL INTERACTION SKILLS",
       "type": "bar",
       "config": {
         "type": "grouped",
         "xAxis": {
           "name": "Category",
           "columns": [
-            "3",
-            "4",
-            "5",
-            "6"
+            "17",
+            "18",
+            "19",
+            "20",
+            "21"
           ],
           "datasetColumn": "2",
           "filters": [
@@ -81,16 +82,16 @@
       }
     },
     {
-      "page": "1",
+      "page": "3",
       "section": "2",
-      "title": "Good General appearance",
+      "title": "Willingness to concentrate, listen and follow facilitator's instructions",
       "type": "pie",
       "config": {
         "filters": [],
         "columns": {
           "include": [
             {
-              "column": "3"
+              "column": "17"
             }
           ],
           "exclude": []
@@ -98,16 +99,16 @@
       }
     },
     {
-      "page": "1",
+      "page": "3",
       "section": "2",
-      "title": "Willingness to listen and ask questions",
+      "title": "Shows appreciation for others",
       "type": "pie",
       "config": {
         "filters": [],
         "columns": {
           "include": [
             {
-              "column": "4"
+              "column": "18"
             }
           ],
           "exclude": []
@@ -115,16 +116,16 @@
       }
     },
     {
-      "page": "1",
+      "page": "3",
       "section": "2",
-      "title": "Willing to co-operate",
+      "title": "Ability to interact with facilitators and others",
       "type": "pie",
       "config": {
         "filters": [],
         "columns": {
           "include": [
             {
-              "column": "5"
+              "column": "19"
             }
           ],
           "exclude": []
@@ -132,26 +133,43 @@
       }
     },
     {
-      "page": "1",
-      "section": "2",
-      "title": "Shows effort and engagement during sessions",
-      "type": "pie",
-      "config": {
-        "filters": [],
-        "columns": {
-          "include": [
-            {
-              "column": "6"
-            }
-          ],
-          "exclude": []
-        }
-      }
-    },
-    {
-      "page": "1",
+      "page": "3",
       "section": "3",
-      "title": "Good General Appearance",
+      "title": "Ability to demonstrate good problem solving skills in class",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "20"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "3",
+      "section": "3",
+      "title": "Willing to freely share tools and art materials with others",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "21"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "3",
+      "section": "4",
+      "title": "Willingness to concentrate, listen and follow facilitator's instructions",
       "type": "line",
       "config": {
         "aggregation": "average",
@@ -162,7 +180,7 @@
         "yAxis": [
           {
             "name": "{{Student Name}}",
-            "column": "3",
+            "column": "17",
             "filters": [
               {
                 "column": "1",
@@ -173,15 +191,15 @@
           },
           {
             "name": "Average",
-            "column": "3"
+            "column": "17"
           }
         ]
       }
     },
     {
-      "page": "1",
-      "section": "3",
-      "title": "Willingness to listen and ask questions",
+      "page": "3",
+      "section": "4",
+      "title": "Shows appreciation for others",
       "type": "line",
       "config": {
         "aggregation": "average",
@@ -192,7 +210,7 @@
         "yAxis": [
           {
             "name": "{{Student Name}}",
-            "column": "4",
+            "column": "18",
             "filters": [
               {
                 "column": "1",
@@ -203,15 +221,15 @@
           },
           {
             "name": "Average",
-            "column": "4"
+            "column": "18"
           }
         ]
       }
     },
     {
-      "page": "1",
-      "section": "3",
-      "title": "Willing to co-operate",
+      "page": "3",
+      "section": "4",
+      "title": "Ability to interact with facilitators and others",
       "type": "line",
       "config": {
         "aggregation": "average",
@@ -222,7 +240,7 @@
         "yAxis": [
           {
             "name": "{{Student Name}}",
-            "column": "5",
+            "column": "19",
             "filters": [
               {
                 "column": "1",
@@ -233,15 +251,15 @@
           },
           {
             "name": "Average",
-            "column": "5"
+            "column": "19"
           }
         ]
       }
     },
     {
-      "page": "1",
-      "section": "3",
-      "title": "Shows effort and engagement during sessions",
+      "page": "3",
+      "section": "4",
+      "title": "Ability to demonstrate good problem solving skills in class",
       "type": "line",
       "config": {
         "aggregation": "average",
@@ -252,7 +270,7 @@
         "yAxis": [
           {
             "name": "{{Student Name}}",
-            "column": "6",
+            "column": "20",
             "filters": [
               {
                 "column": "1",
@@ -263,7 +281,37 @@
           },
           {
             "name": "Average",
-            "column": "6"
+            "column": "20"
+          }
+        ]
+      }
+    },
+    {
+      "page": "3",
+      "section": "4",
+      "title": "Willing to freely share tools and art materials with others",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "21",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "21"
           }
         ]
       }

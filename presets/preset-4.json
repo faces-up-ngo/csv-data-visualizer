@@ -1,6 +1,6 @@
 {
-  "name": "Student Assessments - General Development",
-  "description": "Various charts depicting student assessment metrics over time",
+  "name": "Student Assessments - Self-Efficacy",
+  "description": "",
   "variables": [
     {
       "name": "Student Name",
@@ -55,19 +55,20 @@
   },
   "charts": [
     {
-      "page": "1",
+      "page": "3",
       "section": "1",
-      "title": "General Development",
+      "title": "SOCIAL INTERACTION SKILLS",
       "type": "bar",
       "config": {
         "type": "grouped",
         "xAxis": {
           "name": "Category",
           "columns": [
-            "3",
-            "4",
-            "5",
-            "6"
+            "22",
+            "23",
+            "24",
+            "25",
+            "26"
           ],
           "datasetColumn": "2",
           "filters": [
@@ -81,16 +82,16 @@
       }
     },
     {
-      "page": "1",
+      "page": "3",
       "section": "2",
-      "title": "Good General appearance",
+      "title": "Level of perseverance during difficult tasks",
       "type": "pie",
       "config": {
         "filters": [],
         "columns": {
           "include": [
             {
-              "column": "3"
+              "column": "22"
             }
           ],
           "exclude": []
@@ -98,16 +99,16 @@
       }
     },
     {
-      "page": "1",
+      "page": "3",
       "section": "2",
-      "title": "Willingness to listen and ask questions",
+      "title": "Ability to keep calm when faced with a challenge or uncertainty",
       "type": "pie",
       "config": {
         "filters": [],
         "columns": {
           "include": [
             {
-              "column": "4"
+              "column": "23"
             }
           ],
           "exclude": []
@@ -115,16 +116,16 @@
       }
     },
     {
-      "page": "1",
+      "page": "3",
       "section": "2",
-      "title": "Willing to co-operate",
+      "title": "Displays self-confidence",
       "type": "pie",
       "config": {
         "filters": [],
         "columns": {
           "include": [
             {
-              "column": "5"
+              "column": "24"
             }
           ],
           "exclude": []
@@ -132,26 +133,43 @@
       }
     },
     {
-      "page": "1",
-      "section": "2",
-      "title": "Shows effort and engagement during sessions",
-      "type": "pie",
-      "config": {
-        "filters": [],
-        "columns": {
-          "include": [
-            {
-              "column": "6"
-            }
-          ],
-          "exclude": []
-        }
-      }
-    },
-    {
-      "page": "1",
+      "page": "3",
       "section": "3",
-      "title": "Good General Appearance",
+      "title": "Ability to solve problems",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "25"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "3",
+      "section": "3",
+      "title": "Ability to demonstrate leadership or take initiative",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "26"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "3",
+      "section": "4",
+      "title": "Level of perseverance during difficult tasks",
       "type": "line",
       "config": {
         "aggregation": "average",
@@ -162,7 +180,7 @@
         "yAxis": [
           {
             "name": "{{Student Name}}",
-            "column": "3",
+            "column": "22",
             "filters": [
               {
                 "column": "1",
@@ -173,15 +191,15 @@
           },
           {
             "name": "Average",
-            "column": "3"
+            "column": "22"
           }
         ]
       }
     },
     {
-      "page": "1",
-      "section": "3",
-      "title": "Willingness to listen and ask questions",
+      "page": "3",
+      "section": "4",
+      "title": "Ability to keep calm when faced with a challenge or uncertainty",
       "type": "line",
       "config": {
         "aggregation": "average",
@@ -192,7 +210,7 @@
         "yAxis": [
           {
             "name": "{{Student Name}}",
-            "column": "4",
+            "column": "23",
             "filters": [
               {
                 "column": "1",
@@ -203,15 +221,15 @@
           },
           {
             "name": "Average",
-            "column": "4"
+            "column": "23"
           }
         ]
       }
     },
     {
-      "page": "1",
-      "section": "3",
-      "title": "Willing to co-operate",
+      "page": "3",
+      "section": "4",
+      "title": "Displays self-confidence",
       "type": "line",
       "config": {
         "aggregation": "average",
@@ -222,7 +240,7 @@
         "yAxis": [
           {
             "name": "{{Student Name}}",
-            "column": "5",
+            "column": "24",
             "filters": [
               {
                 "column": "1",
@@ -233,15 +251,15 @@
           },
           {
             "name": "Average",
-            "column": "5"
+            "column": "24"
           }
         ]
       }
     },
     {
-      "page": "1",
-      "section": "3",
-      "title": "Shows effort and engagement during sessions",
+      "page": "3",
+      "section": "4",
+      "title": "Ability to solve problems",
       "type": "line",
       "config": {
         "aggregation": "average",
@@ -252,7 +270,7 @@
         "yAxis": [
           {
             "name": "{{Student Name}}",
-            "column": "6",
+            "column": "25",
             "filters": [
               {
                 "column": "1",
@@ -263,7 +281,37 @@
           },
           {
             "name": "Average",
-            "column": "6"
+            "column": "25"
+          }
+        ]
+      }
+    },
+    {
+      "page": "3",
+      "section": "4",
+      "title": "Ability to demonstrate leadership or take intiative",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "26",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "26"
           }
         ]
       }
