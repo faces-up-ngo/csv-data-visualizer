@@ -669,8 +669,8 @@ function buildPieChart(ctx, type, dataAggregation, title = 'Pie Chart') {
         .map((label, index) => {
             const percentage = (dataAggregation[label] / total * 100).toFixed(2) + '%';
             return `${label} (${percentage})`;
-        });
-
+        })
+        .sort(); // Sort the labels in ascending order
 
     return new Chart(ctx, {
         type: type,
