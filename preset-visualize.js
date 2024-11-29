@@ -210,7 +210,8 @@ document.getElementById('exportPDF').addEventListener('click', () => {
             heightLeft -= pageHeight;
         }
 
-        doc.save('data.pdf');
+        let studentName = document.getElementById("Student Name").value;
+        doc.save(studentName ? 'report_' + studentName + '.pdf' : 'report.pdf');
 
         // Hide empty buttonsContainer for print
         Array.from(document.getElementsByClassName("empty")).forEach(el => el.style.display = "none");
