@@ -264,6 +264,51 @@ const chartColors = [
     'rgba(153, 102, 255, 1)'
 ];
 
+const semanticColors = [ // performance code = index of the color in the array
+    'rgba(239, 241, 242, 1)', // undefined
+    'rgba(170, 8, 8, 1)', // negative
+    'rgba(231, 101, 0, 1)', // critical
+    'rgba(120, 143, 166, 1)', // neutral
+    'rgba(4, 108, 122, 1)', // positive
+    'rgba(37, 111, 58, 1)', // excellent 
+];
+
+function getSemanticColorByPerformanceCode(code) {
+    const colorIndex = code ;
+    if (colorIndex > 0 && colorIndex < semanticColors.length ) {
+        return semanticColors[colorIndex];
+    }
+    // Default color
+    return semanticColors[0]; // undefined 
+}
+
+function getSemanticBorderColorByPerformanceCode(code) {
+    semanticColor = getSemanticColorByPerformanceCode(code);
+    return makeDarkerColor(semanticColor);
+}
+
+function makeDarkerColor(color) {
+    // Extract r, g, b, a values using a regular expression
+    const rgbaRegex = /rgba\((\d+), (\d+), (\d+), ([\d.]+)\)/;
+    const match = color.match(rgbaRegex);
+
+    if (!match) {
+        throw new Error('Invalid color format');
+    }
+
+    let r = parseInt(match[1], 10);
+    let g = parseInt(match[2], 10);
+    let b = parseInt(match[3], 10);
+    const a = parseFloat(match[4]);
+
+    r = Math.max(0, r - 10);
+    g = Math.max(0, g - 10);
+    b = Math.max(0, b - 10);
+
+    // Construct the new rgba string
+    return `rgba(${r}, ${g}, ${b}, ${a})`;
+}
+
 function getRandomColor() {
     if (currentColor < chartColors.length) {
         return chartColors[currentColor++];
@@ -618,6 +663,7 @@ function buildPieChart(ctx, type, dataAggregation, title = 'Pie Chart') {
             labels: labels,
             datasets: [{
                 data: dataValues,
+                //backgroundColor: dataValues.map((value) => getSemanticColorByPerformanceCode(value)),
                 backgroundColor: labels.map(() => getRandomColor()),
                 borderColor: labels.map(() => getRandomColor()),
                 borderWidth: 3
