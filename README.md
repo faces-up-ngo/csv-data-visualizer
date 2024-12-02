@@ -1,11 +1,26 @@
-# data-visualizer
+# What is data-visualizer
 
 A tool to easily visualize Student Progress during the [FacesUp MentorMe](https://facesup.org/mentor-me/) project. 
 
 # Instructions
+## One time preparation: API token
+* Create a [Google account](https://myaccount.google.com/) and/ or log in
+* Follow [Google's instructions](https://ai.google.dev/gemini-api/)) to get an API key from the Google AI studio. After successful generation a popup will occur with the API key. The API key is a long sequence of characters and numbers. Copy and save the API key.
+* Start the [data visualizer tool](https://faces-up-ngo.github.io/csv-data-visualizer/) and enter your API key in the corresponding field, then push the "Load Token" button.
+* In the address bar of the browser, an updated URL will appear. We recommend bookmarking this URL as your personalized entry page for the data visualizer tool.
 
-1. Export the CSV data from the airtable stundent intake form
-2. Upload it to the [running version of this page](https://faces-up-ngo.github.io/csv-data-visualizer/)
+   `https://faces-up-ngo.github.io/csv-data-visualizer/?gemini-api-key=<you_api_key>`.
+
+## How to view a student's progress
+### Data preparation
+In Airtable: Export the student intake form into a CSV file
+
+### Data visualizer tool
+* Make sure you are connected to the internet
+* Start the [data visualizer tool](https://faces-up-ngo.github.io/csv-data-visualizer/), ideally use your bookmarked link with the API key.
+* 
+
+2. Upload the CSV data
 3. Select one of the presets or analyze the data with the preset builder
 
 # Contributions
