@@ -5,8 +5,9 @@ A tool to easily visualize Student Progress during the [FacesUp MentorMe](https:
 # Instructions
 ## One time preparation: API token
 * Create a [Google account](https://myaccount.google.com/) and/ or log in
-* Follow [Google's instructions](https://ai.google.dev/gemini-api/)) to get an API key from the Google AI studio. After successful generation a popup will occur with the API key. The API key is a long sequence of characters and numbers. Copy and save the API key.
+* Follow [Google's instructions](https://ai.google.dev/gemini-api/) to get an API key from the Google AI studio. After successful generation a popup will occur with the API key. The API key is a long sequence of characters and numbers. Copy and save the API key.
 * Start the [data visualizer tool](https://faces-up-ngo.github.io/csv-data-visualizer/) and enter your API key in the corresponding field, then push the "Load Token" button.
+  ![Entering the API key](documentation/enter_api_key.png)
 * In the address bar of the browser, an updated URL will appear. We recommend bookmarking this URL as your personalized entry page for the data visualizer tool.
 
    `https://faces-up-ngo.github.io/csv-data-visualizer/?gemini-api-key=<you_api_key>`.
@@ -17,11 +18,18 @@ In Airtable: Export the student intake form into a CSV file
 
 ### Data visualizer tool
 * Make sure you are connected to the internet
-* Start the [data visualizer tool](https://faces-up-ngo.github.io/csv-data-visualizer/), ideally use your bookmarked link with the API key.
-* 
+* Start the [data visualizer tool](https://faces-up-ngo.github.io/csv-data-visualizer/), ideally use your bookmarked link with the API key. Enter the API key if not done previously.
+* Choose your type of analysis by selecting a so-called "preset" from the list
+  ![Choosing a preset](documentation/select_preset.png)
+* Upload the CSV data
+* Choose a student
+* Generate the AI summaries
+* Export the student's report to PDF for offline use or printing
 
-2. Upload the CSV data
-3. Select one of the presets or analyze the data with the preset builder
+
+## How to create your own data analysis ("preset")
+TODO
+
 
 # Contributions
 
