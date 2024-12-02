@@ -19,11 +19,11 @@ In Airtable: Export the student intake form into a CSV file
 ### Data visualizer tool
 * Make sure you are connected to the internet
 * Start the [data visualizer tool](https://faces-up-ngo.github.io/csv-data-visualizer/), ideally use your bookmarked link with the API key. Enter the API key if not done previously.
-* Choose your type of analysis by selecting a so-called "preset" from the list
+* Choose your type of analysis by selecting a so-called "preset" from the dropdown list and press `load preset`.
   ![Choosing a preset](documentation/select_preset.png)
-* Upload the CSV data
-* Choose a student
-* Generate the AI summaries
+* Upload the CSV data exported from Airatable by pressing  `load data file`.
+* Choose a student and select `Visualize`
+* Generate the AI summaries by pressing the `Generate Insights` button below each chart
 * Export the student's report to PDF for offline use or printing
 
 
