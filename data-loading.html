@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FacesUP Stats</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <!-- css -->
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 text-gray-800">
+    <div class="text-right p-4">
+        <a href="data-loading.html" class="rounded text-white bg-blue-500 p-3">Go to Data Loading</a>
+    </div>
+    <h1 class="text-4xl font-bold text-center text-blue-600 my-4">Generate CSV Visualizations</h1>
+    <div id="container" class="max-w-screen-2xl w-9/10 mx-auto bg-white p-8 rounded-lg shadow-lg">
+        <h3 class="text-2xl font-semibold text-center text-blue-500 mb-4">Data Loading</h3>
+        <section id="dataLoadingContainer">
+            <textarea id="csvInput" class="w-full h-40 p-4 border border-gray-300 rounded mb-4"
+                placeholder="Paste your CSV data here"></textarea>
+            <div class="buttons flex gap-4 mb-4">
+                <button id="loadData" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Load Data</button>
+                <button id="uploadData" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">Upload
+                    Data</button>
+            </div>
+        </section>
+        <section id="dataLoadedContainer" class="hidden">
+            <h3 class="text-xl font-semibold text-center mb-4">Data Successfully Loaded</h3>
+        </section>
+        <div id="chartsGenerationContainer" class="hidden">
+            <h3 class="text-2xl font-semibold text-center text-blue-500 mb-4">Chart Generation</h3>
+            <div id="filtersContainer" class="selects mb-4 mt-4 p-2 border border-gray-300 rounded">
+                <label for="filter" class="self-center">Filters</label>
+                <button id="addFilterBtn" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Add Filter</button>
+            </div>
+
+            <div class="p-2 border border-gray-300 rounded">
+                <div class="selects flex gap-4 items-center">
+                    <label for="chartType" class="self-center">Chart Type</label>
+                    <select id="chartType" class="p-2 border border-gray-300 rounded">
+                        <option value=""></option>
+                        <option value="line">Line Chart</option>
+                        <option value="bar">Bar Chart</option>
+                        <option value="pie">Pie Chart</option>
+                    </select>
+                </div>
+
+                <div id="optionsContainer" class="flex flex-col gap-2 p-4 hidden">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label>Columns to include</label>
+                            <button id="addColumnToInclude" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Add</button>
+                        </div>
+                        <div>
+                            <label>Columns to exclude</label>
+                            <button id="addColumnToExclude" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <button id="generateBtn" class="bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-700">Generate
+                    Chart</button>
+                <button id="exportPdf" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Export to
+                    PDF</button>
+                <button id="exportPresetBtn" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Export Preset</button>
+            </div>
+            <div id="chartsContainer" class="flex flex-wrap pt-4 pb-4 justify-center">
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
