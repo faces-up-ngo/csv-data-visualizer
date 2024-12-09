@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FacesUP Stats</title>
+    <title>FacesUp - Participant Progress Assessment Generator</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -13,13 +13,37 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+<style>
+    .header {
+        height: 90px;
+        vertical-align: middle;
+        background-color: rgba(239, 239, 239, 0.87);
+    }
+    .logo {
+        height: 60px;
+        float: left;
+        margin: 15px;
+    }
+    .buttons {
+        white-space: nowrap;
+    }
+    .title {
+        float: left;
+        text-overflow: ellipsis;
+    }
+</style>
 
-<body class="bg-gray-100 text-gray-800">
-    <div class="text-right p-4">
-        <a href="data-loading.html" class="rounded text-white bg-blue-500 p-3">Go to Data Loading</a>
+<body class="bg-gray-50 text-gray-800">
+<div class="header bg-gray-200">
+    <a href="https://www.facesup.org" target="_blank"><img class="logo" src="image/logo.png" height="60"/></a>
+    <h1 class="title text-4xl font-bold text-center my-4">Participant Progress Assessment Generator</h1>
+    <div class="buttons text-right p-7">
+        <a href="index.html" class="rounded text-white bg-blue-500 p-3">Load extisting presets</a>
+        <a href="compose.html" class="rounded text-white bg-blue-500 p-3">Create new preset</a>
     </div>
-    <h1 class="text-4xl font-bold text-center text-blue-600 my-4">Generate CSV Visualizations</h1>
-    <div id="container" class="max-w-screen-2xl w-9/10 mx-auto bg-white p-8 rounded-lg shadow-lg">
+</div>
+
+    <div id="container" class="max-w-screen-2xl w-9/10 mx-auto bg-white p-8 m-8 rounded-lg shadow-lg">
         <h3 class="text-2xl font-semibold text-center text-blue-500 mb-4">Data Loading</h3>
         <section id="dataLoadingContainer">
             <textarea id="csvInput" class="w-full h-40 p-4 border border-gray-300 rounded mb-4"
@@ -76,6 +100,8 @@
             </div>
         </div>
     </div>
+
+    <div class="text-center">This project is <a href="https://github.com/faces-up-ngo/csv-data-visualizer" target="_blank" class="text-blue-600 dark:text-blue-500 hover:underline">Open Source</a> and was created for FacesUp by <a href="https://github.com/faces-up-ngo/csv-data-visualizer?tab=readme-ov-file#contributions" target="_blank"  class="text-blue-600 dark:text-blue-500 hover:underline">volunteering experts from across the globe</a> - feel free to contribute!</div>
 
     <script src="script.js"></script>
 </body>

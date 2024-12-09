@@ -1,6 +1,6 @@
 {
   "name": "Student Assessments - General Development",
-  "description": "Various charts depicting student assessment metrics over time",
+  "description": "Overall Student progress over time",
   "variables": [
     {
       "name": "Student Name",

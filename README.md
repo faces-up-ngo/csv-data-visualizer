@@ -1,6 +1,8 @@
-# What is data-visualizer
+![logo.jpg](image/logo.png)
 
-A tool to easily visualize Student Progress during the [FacesUp MentorMe](https://facesup.org/mentor-me/) project. 
+# Participant Progress Assessment Visualizer
+
+This is a web-based tool to easily visualize Student Progress during the [FacesUp MentorMe](https://facesup.org/mentor-me/) project. 
 
 # Instructions
 ## One time preparation: API token
@@ -13,6 +15,7 @@ A tool to easily visualize Student Progress during the [FacesUp MentorMe](https:
    `https://faces-up-ngo.github.io/csv-data-visualizer/?gemini-api-key=<you_api_key>`.
 
 ## How to view a student's progress
+
 ### Data preparation
 In Airtable: Export the student intake form into a CSV file
 
@@ -28,14 +31,22 @@ In Airtable: Export the student intake form into a CSV file
 
 
 ## How to create your own data analysis ("preset")
-TODO
 
+1. Go to [Compose new presets](https://faces-up-ngo.github.io/csv-data-visualizer/compose.html)
+2. Press "Upload Data" to select a CSV data file to be uploaded to the tool
+3. Keep adding charts to your new preset until you are satisfied
+   * Select a chart type (Line/Bar/Pie Chart)
+   * Select a column from the data set to be visualized on the X axis
+   * Select a column from the data set to be visualized on the Y axis
+   * Press "Generate Chart" to see a preview the chart
+4. Press "Export preset" to save the JSON file for your new preset (work in progress - not yet implemented)
+5. Upload the new preset to the [preset folder](https://github.com/faces-up-ngo/csv-data-visualizer/tree/main/presets) in GitHub
 
 # Contributions
 
 This project was created for FacesUp through the [MovingWorlds](https://movingworlds.org/) program in autumn 2024. 
 Many thanks to the great insights we collected together as a project team while working on this tool:
-* [Ssekitto Ssekitto Kalule (CEO FacesUp)](https://www.linkedin.com/in/ssekitto-kalule-emmanuel-7442a389/)
+* [Ssekitto Kalule (CEO FacesUp)](https://www.linkedin.com/in/ssekitto-kalule-emmanuel-7442a389/)
 * [Aleksandr Aytov (SAP)](https://www.linkedin.com/in/aleksandar-aytov/)
 * [Ilie Ciotir (SAP)](https://www.linkedin.com/in/ilieciotir/)
 * [Michael Graf (SAP)](https://www.linkedin.com/in/michadelic/)

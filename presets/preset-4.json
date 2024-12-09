@@ -1,6 +1,6 @@
 {
   "name": "Student Assessments - Self-Efficacy",
-  "description": "",
+  "description": "Progress on problem solving and confidence",
   "variables": [
     {
       "name": "Student Name",
@@ -57,7 +57,7 @@
     {
       "page": "3",
       "section": "1",
-      "title": "SOCIAL INTERACTION SKILLS",
+      "title": "SELF-EFFICACY",
       "type": "bar",
       "config": {
         "type": "grouped",
