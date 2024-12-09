@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualize</title>
+    <title>FacesUp - Participant Progress Assessment Visualizer</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
@@ -15,6 +15,27 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <style>
+    .header {
+        height: 90px;
+        vertical-align: middle;
+        background-color: rgba(239, 239, 239, 0.87);
+    }
+    .logo {
+        height: 60px;
+        float: left;
+        margin: 15px;
+    }
+    .buttons {
+        white-space: nowrap;
+    }
+    .title {
+        float: left;
+        text-overflow: ellipsis;
+    }
+    .variable {
+        display: inline-block;
+        margin-right: 1rem;
+    }
     .markdown-content ul {
         list-style-type: disc;
         margin-left: 1.5rem;
@@ -26,13 +47,17 @@
     }
 </style>
 
-<body class="bg-gray-100 text-gray-800">
-    <div class="text-right p-4">
-        <a href="index.html" class="rounded text-white bg-blue-500 p-3">Reset selection</a>
-        <a href="compose.html" class="rounded text-white bg-blue-500 p-3">Create new preset</a>
+<body class="bg-gray-50 text-gray-800">
+    <div class="header bg-gray-200">
+        <a href="https://www.facesup.org" target="_blank"><img class="logo" src="image/logo.png" height="60"/></a>
+        <h1 class="title text-4xl font-bold text-center my-4">Participant Progress Assessment Visualizer</h1>
+        <div class="buttons text-right p-7">
+            <a href="index.html" class="rounded text-white bg-blue-500 p-3">Reset selection</a>
+            <a href="compose.html" class="rounded text-white bg-blue-500 p-3">Create new preset</a>
+        </div>
     </div>
-    <h1 class="text-4xl font-bold text-center text-blue-600 my-4">Visualize CSV Data Using Presets</h1>
-    <div id="container" class="max-w-screen-2xl w-9/10 mx-auto bg-white p-8 rounded-lg shadow-lg">
+
+    <div id="container" class="max-w-screen-2xl w-9/10 mx-auto bg-white p-8 m-8 rounded-lg shadow-lg">
         <div id="dataLoadingSection">
             <h3 id="loadDataTitle" class="text-xl font-semibold text-center text-blue-500 mb-4">Gemini API Token For AI
                 Insights</h3>
@@ -111,18 +136,8 @@
 
     </div>
 
-    <!-- <script type="module">
-        import { pipeline, env } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers";
+    <div class="text-center">This project is <a href="https://github.com/faces-up-ngo/csv-data-visualizer" target="_blank" class="text-blue-600 dark:text-blue-500 hover:underline">Open Source</a> and was created for FacesUp by <a href="https://github.com/faces-up-ngo/csv-data-visualizer?tab=readme-ov-file#contributions" target="_blank"  class="text-blue-600 dark:text-blue-500 hover:underline">volunteering experts from across the globe</a> - feel free to contribute!</div>
 
-        async function test() {
-            const generator = await pipeline('text-generation', 'Xenova/LaMini-Cerebras-590M', { model_file_name: 'decoder_model_merged'} );
-            const result = await generator("Write me a recipe for chicken soup", {max_length: 100});    
-
-            console.log(result)
-        }
-
-        test();
-    </script> -->
     <script src="https://cdn.jsdelivr.net/npm/marked@3.0.7/marked.min.js"></script>
     <script type="module" src="preset-visualize.js"></script>
 </body>

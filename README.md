@@ -1,6 +1,8 @@
-# What is data-visualizer
+![logo.jpg](image/logo.png)
 
-A tool to easily visualize Student Progress during the [FacesUp MentorMe](https://facesup.org/mentor-me/) project. 
+# Participant Progress Assessment Visualizer
+
+This is a web-based tool to easily visualize Student Progress during the [FacesUp MentorMe](https://facesup.org/mentor-me/) project. 
 
 # Instructions
 ## One time preparation: API token
@@ -13,6 +15,7 @@ A tool to easily visualize Student Progress during the [FacesUp MentorMe](https:
    `https://faces-up-ngo.github.io/csv-data-visualizer/?gemini-api-key=<you_api_key>`.
 
 ## How to view a student's progress
+
 ### Data preparation
 In Airtable: Export the student intake form into a CSV file
 

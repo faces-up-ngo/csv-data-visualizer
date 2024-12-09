@@ -91,7 +91,7 @@ function displayVariables() {
             div.classList.add('variable');
             div.innerHTML = `
                 <label for="${variable.name}">${variable.name}:</label>
-                <select class="variable-input border rounded" id="${variable.name}" name="${variable.name}">
+                <select class="variable-input p-2 border rounded border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="${variable.name}" name="${variable.name}">
                     <option value="">Select a value</option>
                     ${variableValues.map(value => `<option value="${value}">${value}</option>`).join('')}
             `;
@@ -107,6 +107,32 @@ function displayVariables() {
         `;
         variablesSection.appendChild(div);
     });
+    // add preset selector at the end
+    const div = document.createElement('div');
+    div.classList.add('variable');
+    div.innerHTML = `<label for="presetSelect">Preset: </label>`;
+    var presetSelectCopy = document.getElementById("presetSelect").cloneNode(true);
+    presetSelectCopy.value = document.getElementById("presetSelect").value;
+    presetSelectCopy.id += "Copy";
+    div.appendChild(presetSelectCopy);
+    variablesSection.appendChild(div);
+    presetSelectCopy.addEventListener(
+        'change',
+        async function() {
+            // populate input with new preset
+            const parsedValue = JSON.parse(presetSelectCopy.value);
+            presetInput.value = JSON.stringify(parsedValue, null, 4);
+            // save currently selected values
+            let presetValue = presetSelectCopy.value;
+            let studentName = document.getElementById('Student Name').value;
+            // trigger data loading
+            await document.getElementById('loadPresetDataBtn').click();
+            // reset select values to current selection
+            document.getElementById('Student Name').value = studentName;
+            document.getElementById("presetSelectCopy").value = presetValue;
+        },
+        false
+    );
 }
 
 let originalPreset
@@ -178,8 +204,9 @@ document.getElementById('exportPDF').addEventListener('click', () => {
     const doc = new jsPDF();
 
     // Add title and subtitle
-    doc.setFontSize(22);
-    doc.text(presetTitle.innerText, 105, 20, null, null, 'center');
+    doc.setFontSize(20);
+    let studentName = document.getElementById("Student Name").value;
+    doc.text(studentName + ": " + presetTitle.innerText, 105, 20, null, null, 'center');
     doc.setFontSize(16);
     // Add all Filters
     // Find only top level divs
