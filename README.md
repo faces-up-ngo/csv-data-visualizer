@@ -33,7 +33,15 @@ TODO
 
 # Contributions
 
-This project was created for FacesUp through the MovingWorlds program. Open tasks are managed in the [GitHub project](https://github.com/orgs/faces-up-ngo/projects/1).
+This project was created for FacesUp through the [MovingWorlds](https://movingworlds.org/) program in autumn 2024. 
+Many thanks to the great insights we collected together as a project team while working on this tool:
+* [Ssekitto Ssekitto Kalule (CEO FacesUp)]([https://www.linkedin.com/in/ssekitto-kalule-emmanuel-7442a389/)
+* [Aleksandr Aytov (SAP)](https://www.linkedin.com/in/aleksandar-aytov/)
+* [Ilie Ciotir (SAP)](https://www.linkedin.com/in/ilieciotir/)
+* [Michael Graf (SAP)](https://www.linkedin.com/in/michadelic/)
+* [Nadine Gärtner (SAP)](https://www.linkedin.com/in/nadinegaertner/)
+
+Open tasks are managed in the [GitHub project](https://github.com/orgs/faces-up-ngo/projects/1).
 Feel free to take a look for potential contributions and further tasks for extending to the tool.
 
 # License
