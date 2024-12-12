@@ -647,6 +647,7 @@ function createChartFromJSON(preset) {
         }
 
         divContainer = document.createElement('div');
+        divContainer.style.paddingBottom = '30px'; // padding between charts
         divContainer.style.width = '45%';
         const canvas = document.createElement('canvas');
 
@@ -656,14 +657,15 @@ function createChartFromJSON(preset) {
 
         if (chart.type === 'line' || chart.type === 'bar') {
             const data = createBarLineChart(canvas, chart, filteredData);
+            if (chart.config.type === 'grouped') {  
+                divContainer.style.width = '80%'; // more space for the main chart
+            }
 
             divContainer.appendChild(canvas)
             if (geminiApiKey) {
                 const insightsBtn = buildInsightsBtn(divContainer, data);
                 divContainer.appendChild(insightsBtn);
             }
-
-
             return;
         }
 
