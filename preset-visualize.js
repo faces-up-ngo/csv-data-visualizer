@@ -749,7 +749,7 @@ function buildPieChart(ctx, type, dataAggregation, title = 'Pie Chart') {
                 },
                 datalabels: {
                     formatter: (value, context) => {
-                        const percentage = Math.round(value / total * 100) + '%';
+                        const percentage = Math.round(value / total * 100);
                         return percentage;
                     },
                     color: '#fff',
