@@ -1,6 +1,11 @@
 let preset = null
 let data = null;
 
+const font_size_title = 20;
+const font_size_legend = 12;
+const font_size_label = 12;
+const font_size_tooltip = 18;
+
 const presetInput = document.getElementById('presetInput');
 const loadPresetDataBtn = document.getElementById('loadPresetDataBtn');
 const uploadPresetDataBtn = document.getElementById('uploadPresetDataBtn');
@@ -390,9 +395,7 @@ function filterData(data, filters) {
 
 function createGroupedBarLineChart(canvas, chart, data) {
     const labels = chart.config.xAxis.columns.map(column => data[0][column]);
-
     const filteredData = filterData(data, chart.config.xAxis.filters);
-
     const datasetValues = filteredData.map(row => row[chart.config.xAxis.datasetColumn]);
 
     const datasets = datasetValues.map(value => {
@@ -732,13 +735,13 @@ function buildPieChart(ctx, type, dataAggregation, title = 'Pie Chart') {
                     display: true,
                     text: title,
                     font: {
-                        size: 24
+                        size: font_size_title
                     }
                 },
                 legend: {
                     labels: {
                         font: {
-                            size: 18
+                            size: font_size_legend
                         }
                     }
                 },
@@ -749,16 +752,16 @@ function buildPieChart(ctx, type, dataAggregation, title = 'Pie Chart') {
                     },
                     color: '#fff',
                     font: {
-                        size: 12
+                        size: font_size_label
                     }
                 },
                 tooltip: {
                     enabled: true,
                     bodyFont: {
-                        size: 18
+                        size: font_size_tooltip
                     },
                     titleFont: {
-                        size: 18
+                        size: font_size_tooltip
                     }
                 }
             }
@@ -810,13 +813,13 @@ function buildLineStyleChart(canvas, type, labels, datasets, title, xAxisLabel) 
                         display: true,
                         text: xAxisLabel,
                         font: {
-                            size: 18
+                            size: font_size_label
                         }
                     },
                     ticks: {
                         callback: wrapValue,
                         font: {
-                            size: 18
+                            size: font_size_label
                         }
                     }
                 },
@@ -824,7 +827,7 @@ function buildLineStyleChart(canvas, type, labels, datasets, title, xAxisLabel) 
                     beginAtZero: true,
                     ticks: {
                         font: {
-                            size: 18
+                            size: font_size_label
                         }
                     }
                 }
@@ -834,23 +837,23 @@ function buildLineStyleChart(canvas, type, labels, datasets, title, xAxisLabel) 
                     display: true,
                     text: title,
                     font: {
-                        size: 24
+                        size: font_size_title
                     }
                 },
                 legend: {
                     labels: {
                         font: {
-                            size: 18
+                            size: font_size_legend
                         }
                     }
                 },
                 tooltip: {
                     enabled: true,
                     bodyFont: {
-                        size: 18
+                        size: font_size_tooltip
                     },
                     titleFont: {
-                        size: 18
+                        size: font_size_tooltip
                     }
                 },
                 wrapLabels: {}
