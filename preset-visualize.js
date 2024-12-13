@@ -205,88 +205,84 @@ async function fetchPreset(url) {
 }
 
 document.getElementById('exportPDF').addEventListener('click', () => {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+    const studentName = document.getElementById("Student Name").value;
+    const presetCharts = document.getElementById('presetCharts');
+    const presetDescription = document.querySelector('#presetDescription');
+    const presetTitle = document.querySelector('#presetTitle');
 
-    // Add title and subtitle
-    doc.setFontSize(20);
-
-    let studentName = document.getElementById("Student Name").value;
-
-    // Render  chartsContainer
-    html2canvas(document.getElementById('presetCharts')).then(canvas => {
+    html2canvas(presetCharts).then(canvas => {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
-    
-        const container = document.getElementById('presetCharts');
-        const charts = container.querySelectorAll('canvas');
-    
+        
+        const charts = presetCharts.querySelectorAll('canvas');
         const margin = 10;
         const pageHeight = 297; // A4 height in mm
-        const contentWidth = 0.8 * 210; // 80% of A4 width 
-        const pieChartWidth = contentWidth / 2 - margin; // Width for each pie chart
-
-        let yOffset = margin;
+        const pageWidth = 210; // A4 width in mm
+        const contentWidth = 0.8 * pageWidth;
+        const pieChartWidth = (contentWidth - 3 * margin) / 2;
+        
+        let yOffset = 40; // Start below the title
         let xOffset = margin;
+        let previousImgHeight = 0;
 
-        doc.text(`Development report for ${studentName}`, 105, 20, null, null, 'center');
         doc.setFontSize(16);
+        doc.text(`Development report for ${studentName}`, 105, 20, null, null, 'center');
         doc.text(presetDescription.innerText, 105, 30, null, null, 'center');
-        doc.setFontSize(20);
-        doc.text(studentName, 105, 10, null, null, 'center');
-        yOffset += 50;
 
         charts.forEach((canvas, index) => {
             const imgData = canvas.toDataURL('image/png');
             const imgProps = doc.getImageProperties(imgData);
-            let imgWidth, imgHeight;
 
-            // Check if the chart is a pie chart
-        if (canvas.chart && canvas.chart.config.type === 'pie') {
-            imgWidth = pieChartWidth;
-            imgHeight = (imgProps.height * imgWidth) / imgProps.width;
+            const isPieChart = preset.charts[index] && preset.charts[index].type === 'pie';
+            const imgWidth = isPieChart ? pieChartWidth : contentWidth;
+            const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
 
-            // Check if the image will overflow the current page
+            // New row if overflow
+            if (xOffset + imgWidth > pageWidth) {
+                xOffset = margin;
+                yOffset += previousImgHeight + margin;
+            }
+
+            // New page if overflow
             if (yOffset + imgHeight > pageHeight - margin) {
                 doc.addPage();
                 yOffset = margin;
                 xOffset = margin;
             }
 
-            // Check if the image will overflow the current row
-            if (xOffset + imgWidth > contentWidth - margin) {
-                yOffset += imgHeight + margin;
-                xOffset = margin;
+            let imgX = xOffset;
+            let verticalShift = false
+
+            if (isPieChart) {
+                xOffset += imgWidth + margin;    
+                // Prepare for next row if two pie charts are placed
+                if (xOffset + imgWidth > contentWidth) {
+                    xOffset = margin;
+                    verticalShift = true;
+                }
+            } else {
+                imgX = (210 - imgWidth) / 2; // Center non-pie images
+                verticalShift = true
             }
+            doc.addImage(imgData, 'PNG', imgX, yOffset, imgWidth, imgHeight);
 
-            doc.addImage(imgData, 'SVG', xOffset, yOffset, imgWidth, imgHeight);
-            xOffset += imgWidth + margin;
-
-            // Reset xOffset and increment yOffset after placing two pie charts
-            if (xOffset + imgWidth > contentWidth - margin) {
-                xOffset = margin;
-                yOffset += imgHeight + margin;
+            previousImgHeight = imgHeight;
+            if (verticalShift) {
+                yOffset += imgHeight + margin; // Increment yOffset after placing
             }
-        } else {
-            imgWidth = contentWidth;
-            imgHeight = (imgProps.height * imgWidth) / imgProps.width;
-
-            // Check if the image will overflow the current page
-            if (yOffset + imgHeight > pageHeight - margin) {
-                doc.addPage();
-                yOffset = margin;
-            }
-
-            const imgX = (210 - imgWidth) / 2; // Center the image horizontally
-
-            doc.addImage(imgData, 'SVG', imgX, yOffset, imgWidth, imgHeight);
-            yOffset += imgHeight + margin;
-        }
-        doc.setFontSize(10);
-        doc.text(`Page ${doc.internal.getNumberOfPages()} (${studentName})`, 105, pageHeight - margin, null, null, 'center');
         });
 
-        doc.save(studentName ? 'report_' + presetTitle.innerText.toLowerCase().replaceAll(/[^a-zA-Z0-9\s]/g, "").replaceAll(/\s+/g, "_") + '_' + studentName + '.pdf' : 'report.pdf');
+        // Footer
+        doc.setFontSize(10);
+        for (let i = 1; i <= doc.internal.getNumberOfPages(); i++) {
+            doc.setPage(i);
+            doc.text(`Page ${i} (${studentName})`, 105, pageHeight - margin, null, null, 'center');
+        }
+
+        const fileName = studentName 
+            ? `report_${presetTitle.innerText.toLowerCase().replace(/[^a-z0-9]+/g, "_")}_${studentName}.pdf`
+            : 'report.pdf';
+        doc.save(fileName);
     });
 });
 
