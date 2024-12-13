@@ -55,7 +55,7 @@
   },
   "charts": [
     {
-      "page": "3",
+      "page": "4",
       "section": "1",
       "title": "SELF-EFFICACY",
       "type": "bar",
@@ -82,7 +82,7 @@
       }
     },
     {
-      "page": "3",
+      "page": "4",
       "section": "2",
       "title": "Level of perseverance during difficult tasks",
       "type": "pie",
@@ -99,7 +99,7 @@
       }
     },
     {
-      "page": "3",
+      "page": "4",
       "section": "2",
       "title": "Ability to keep calm when faced with a challenge or uncertainty",
       "type": "pie",
@@ -116,7 +116,7 @@
       }
     },
     {
-      "page": "3",
+      "page": "4",
       "section": "2",
       "title": "Displays self-confidence",
       "type": "pie",
@@ -133,7 +133,7 @@
       }
     },
     {
-      "page": "3",
+      "page": "4",
       "section": "3",
       "title": "Ability to solve problems",
       "type": "pie",
@@ -150,7 +150,7 @@
       }
     },
     {
-      "page": "3",
+      "page": "4",
       "section": "3",
       "title": "Ability to demonstrate leadership or take initiative",
       "type": "pie",
@@ -167,7 +167,7 @@
       }
     },
     {
-      "page": "3",
+      "page": "4",
       "section": "4",
       "title": "Level of perseverance during difficult tasks",
       "type": "line",
@@ -197,7 +197,7 @@
       }
     },
     {
-      "page": "3",
+      "page": "4",
       "section": "4",
       "title": "Ability to keep calm when faced with a challenge or uncertainty",
       "type": "line",
@@ -227,7 +227,7 @@
       }
     },
     {
-      "page": "3",
+      "page": "4",
       "section": "4",
       "title": "Displays self-confidence",
       "type": "line",
@@ -257,7 +257,7 @@
       }
     },
     {
-      "page": "3",
+      "page": "4",
       "section": "4",
       "title": "Ability to solve problems",
       "type": "line",
@@ -287,7 +287,7 @@
       }
     },
     {
-      "page": "3",
+      "page": "4",
       "section": "4",
       "title": "Ability to demonstrate leadership or take intiative",
       "type": "line",

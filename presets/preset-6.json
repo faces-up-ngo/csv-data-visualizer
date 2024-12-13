@@ -73,33 +73,6 @@
       }
     },
     {
-      "page": "2",
-      "section": "1",
-      "title": "EMOTIONAL DEVELOPMENT",
-      "type": "bar",
-      "config": {
-        "type": "grouped",
-        "xAxis": {
-          "name": "Category",
-          "columns": [
-            "7",
-            "8",
-            "9",
-            "10",
-            "11"
-          ],
-          "datasetColumn": "2",
-          "filters": [
-            {
-              "column": "1",
-              "operation": "=",
-              "value": "{{Student Name}}"
-            }
-          ]
-        }
-      }
-    },
-    {
       "page": "1",
       "section": "2",
       "title": "Good General appearance",
@@ -285,6 +258,33 @@
             "column": "6"
           }
         ]
+      }
+    },
+    {
+      "page": "2",
+      "section": "1",
+      "title": "EMOTIONAL DEVELOPMENT",
+      "type": "bar",
+      "config": {
+        "type": "grouped",
+        "xAxis": {
+          "name": "Category",
+          "columns": [
+            "7",
+            "8",
+            "9",
+            "10",
+            "11"
+          ],
+          "datasetColumn": "2",
+          "filters": [
+            {
+              "column": "1",
+              "operation": "=",
+              "value": "{{Student Name}}"
+            }
+          ]
+        }
       }
     },
     {
@@ -518,6 +518,942 @@
           {
             "name": "Average",
             "column": "11"
+          }
+        ]
+      }
+    },
+    {
+      "page": "3",
+      "section": "1",
+      "title": "CREATIVE DEVELOPMENT",
+      "type": "bar",
+      "config": {
+        "type": "grouped",
+        "xAxis": {
+          "name": "Category",
+          "columns": [
+            "12",
+            "13",
+            "14",
+            "15",
+            "16"
+          ],
+          "datasetColumn": "2",
+          "filters": [
+            {
+              "column": "1",
+              "operation": "=",
+              "value": "{{Student Name}}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "page": "3",
+      "section": "2",
+      "title": "Demonstrates imagination and originality through their works",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "12"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "3",
+      "section": "2",
+      "title": "Ability to complete art projects as instructed",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "13"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "3",
+      "section": "2",
+      "title": "Willingness to show and share artistic work done with others",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "14"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "3",
+      "section": "3",
+      "title": "Willingness to experiment with art materials",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "15"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "3",
+      "section": "3",
+      "title": "Ability to use abstraction in their works or titles",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "15"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "3",
+      "section": "4",
+      "title": "Demonstrates imagination and originality through their works.",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "12",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "12"
+          }
+        ]
+      }
+    },
+    {
+      "page": "3",
+      "section": "4",
+      "title": "Ability to complete art projects as instructed",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "13",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "13"
+          }
+        ]
+      }
+    },
+    {
+      "page": "3",
+      "section": "4",
+      "title": "Willingness to show and share artistic work done with others",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "14",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "14"
+          }
+        ]
+      }
+    },
+    {
+      "page": "3",
+      "section": "4",
+      "title": "Willingness to experiment with art materials",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "15",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "15"
+          }
+        ]
+      }
+    },
+    {
+      "page": "3",
+      "section": "4",
+      "title": "Ability to use abstraction in their works or titles",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "16",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "16"
+          }
+        ]
+      }
+    },
+    {
+      "page": "4",
+      "section": "4",
+      "title": "Demonstrates imagination and originality through their works.",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "12",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "12"
+          }
+        ]
+      }
+    },
+    {
+      "page": "4",
+      "section": "4",
+      "title": "Ability to complete art projects as instructed",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "13",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "13"
+          }
+        ]
+      }
+    },
+    {
+      "page": "4",
+      "section": "4",
+      "title": "Willingness to show and share artistic work done with others",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "14",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "14"
+          }
+        ]
+      }
+    },
+    {
+      "page": "4",
+      "section": "4",
+      "title": "Willingness to experiment with art materials",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "15",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "15"
+          }
+        ]
+      }
+    },
+    {
+      "page": "4",
+      "section": "4",
+      "title": "Ability to use abstraction in their works or titles",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "16",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "16"
+          }
+        ]
+      }
+    },
+    {
+      "page": "4",
+      "section": "1",
+      "title": "SELF-EFFICACY",
+      "type": "bar",
+      "config": {
+        "type": "grouped",
+        "xAxis": {
+          "name": "Category",
+          "columns": [
+            "22",
+            "23",
+            "24",
+            "25",
+            "26"
+          ],
+          "datasetColumn": "2",
+          "filters": [
+            {
+              "column": "1",
+              "operation": "=",
+              "value": "{{Student Name}}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "page": "4",
+      "section": "2",
+      "title": "Level of perseverance during difficult tasks",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "22"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "4",
+      "section": "2",
+      "title": "Ability to keep calm when faced with a challenge or uncertainty",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "23"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "4",
+      "section": "2",
+      "title": "Displays self-confidence",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "24"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "4",
+      "section": "3",
+      "title": "Ability to solve problems",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "25"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "4",
+      "section": "3",
+      "title": "Ability to demonstrate leadership or take initiative",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "26"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "4",
+      "section": "4",
+      "title": "Level of perseverance during difficult tasks",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "22",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "22"
+          }
+        ]
+      }
+    },
+    {
+      "page": "4",
+      "section": "4",
+      "title": "Ability to keep calm when faced with a challenge or uncertainty",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "23",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "23"
+          }
+        ]
+      }
+    },
+    {
+      "page": "4",
+      "section": "4",
+      "title": "Displays self-confidence",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "24",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "24"
+          }
+        ]
+      }
+    },
+    {
+      "page": "4",
+      "section": "4",
+      "title": "Ability to solve problems",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "25",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "25"
+          }
+        ]
+      }
+    },
+    {
+      "page": "4",
+      "section": "4",
+      "title": "Ability to demonstrate leadership or take intiative",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "26",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "26"
+          }
+        ]
+      }
+    },
+    {
+      "page": "5",
+      "section": "1",
+      "title": "SOCIAL INTERACTION SKILLS",
+      "type": "bar",
+      "config": {
+        "type": "grouped",
+        "xAxis": {
+          "name": "Category",
+          "columns": [
+            "17",
+            "18",
+            "19",
+            "20",
+            "21"
+          ],
+          "datasetColumn": "2",
+          "filters": [
+            {
+              "column": "1",
+              "operation": "=",
+              "value": "{{Student Name}}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "page": "5",
+      "section": "2",
+      "title": "Willingness to concentrate, listen and follow facilitator's instructions",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "17"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "5",
+      "section": "2",
+      "title": "Shows appreciation for others",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "18"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "5",
+      "section": "2",
+      "title": "Ability to interact with facilitators and others",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "19"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "5",
+      "section": "3",
+      "title": "Ability to demonstrate good problem solving skills in class",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "20"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "5",
+      "section": "3",
+      "title": "Willing to freely share tools and art materials with others",
+      "type": "pie",
+      "config": {
+        "filters": [],
+        "columns": {
+          "include": [
+            {
+              "column": "21"
+            }
+          ],
+          "exclude": []
+        }
+      }
+    },
+    {
+      "page": "5",
+      "section": "4",
+      "title": "Willingness to concentrate, listen and follow facilitator's instructions",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "17",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "17"
+          }
+        ]
+      }
+    },
+    {
+      "page": "5",
+      "section": "4",
+      "title": "Shows appreciation for others",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "18",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "18"
+          }
+        ]
+      }
+    },
+    {
+      "page": "5",
+      "section": "4",
+      "title": "Ability to interact with facilitators and others",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "19",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "19"
+          }
+        ]
+      }
+    },
+    {
+      "page": "5",
+      "section": "4",
+      "title": "Ability to demonstrate good problem solving skills in class",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "20",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "20"
+          }
+        ]
+      }
+    },
+    {
+      "page": "5",
+      "section": "4",
+      "title": "Willing to freely share tools and art materials with others",
+      "type": "line",
+      "config": {
+        "aggregation": "average",
+        "xAxis": {
+          "name": "Assessment Period",
+          "column": "2"
+        },
+        "yAxis": [
+          {
+            "name": "{{Student Name}}",
+            "column": "21",
+            "filters": [
+              {
+                "column": "1",
+                "operation": "=",
+                "value": "{{Student Name}}"
+              }
+            ]
+          },
+          {
+            "name": "Average",
+            "column": "21"
           }
         ]
       }
