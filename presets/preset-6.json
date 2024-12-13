@@ -74,6 +74,114 @@
     },
     {
       "page": "1",
+      "section": "1",
+      "title": "EMOTIONAL DEVELOPMENT",
+      "type": "bar",
+      "config": {
+        "type": "grouped",
+        "xAxis": {
+          "name": "Category",
+          "columns": [
+            "7",
+            "8",
+            "9",
+            "10",
+            "11"
+          ],
+          "datasetColumn": "2",
+          "filters": [
+            {
+              "column": "1",
+              "operation": "=",
+              "value": "{{Student Name}}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "page": "1",
+      "section": "1",
+      "title": "CREATIVE DEVELOPMENT",
+      "type": "bar",
+      "config": {
+        "type": "grouped",
+        "xAxis": {
+          "name": "Category",
+          "columns": [
+            "12",
+            "13",
+            "14",
+            "15",
+            "16"
+          ],
+          "datasetColumn": "2",
+          "filters": [
+            {
+              "column": "1",
+              "operation": "=",
+              "value": "{{Student Name}}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "page": "1",
+      "section": "1",
+      "title": "SELF-EFFICACY",
+      "type": "bar",
+      "config": {
+        "type": "grouped",
+        "xAxis": {
+          "name": "Category",
+          "columns": [
+            "22",
+            "23",
+            "24",
+            "25",
+            "26"
+          ],
+          "datasetColumn": "2",
+          "filters": [
+            {
+              "column": "1",
+              "operation": "=",
+              "value": "{{Student Name}}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "page": "1",
+      "section": "1",
+      "title": "SOCIAL INTERACTION SKILLS",
+      "type": "bar",
+      "config": {
+        "type": "grouped",
+        "xAxis": {
+          "name": "Category",
+          "columns": [
+            "17",
+            "18",
+            "19",
+            "20",
+            "21"
+          ],
+          "datasetColumn": "2",
+          "filters": [
+            {
+              "column": "1",
+              "operation": "=",
+              "value": "{{Student Name}}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "page": "1",
       "section": "2",
       "title": "Good General appearance",
       "type": "pie",
@@ -258,33 +366,6 @@
             "column": "6"
           }
         ]
-      }
-    },
-    {
-      "page": "2",
-      "section": "1",
-      "title": "EMOTIONAL DEVELOPMENT",
-      "type": "bar",
-      "config": {
-        "type": "grouped",
-        "xAxis": {
-          "name": "Category",
-          "columns": [
-            "7",
-            "8",
-            "9",
-            "10",
-            "11"
-          ],
-          "datasetColumn": "2",
-          "filters": [
-            {
-              "column": "1",
-              "operation": "=",
-              "value": "{{Student Name}}"
-            }
-          ]
-        }
       }
     },
     {
@@ -524,33 +605,6 @@
     },
     {
       "page": "3",
-      "section": "1",
-      "title": "CREATIVE DEVELOPMENT",
-      "type": "bar",
-      "config": {
-        "type": "grouped",
-        "xAxis": {
-          "name": "Category",
-          "columns": [
-            "12",
-            "13",
-            "14",
-            "15",
-            "16"
-          ],
-          "datasetColumn": "2",
-          "filters": [
-            {
-              "column": "1",
-              "operation": "=",
-              "value": "{{Student Name}}"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "page": "3",
       "section": "2",
       "title": "Demonstrates imagination and originality through their works",
       "type": "pie",
@@ -786,183 +840,6 @@
     },
     {
       "page": "4",
-      "section": "4",
-      "title": "Demonstrates imagination and originality through their works.",
-      "type": "line",
-      "config": {
-        "aggregation": "average",
-        "xAxis": {
-          "name": "Assessment Period",
-          "column": "2"
-        },
-        "yAxis": [
-          {
-            "name": "{{Student Name}}",
-            "column": "12",
-            "filters": [
-              {
-                "column": "1",
-                "operation": "=",
-                "value": "{{Student Name}}"
-              }
-            ]
-          },
-          {
-            "name": "Average",
-            "column": "12"
-          }
-        ]
-      }
-    },
-    {
-      "page": "4",
-      "section": "4",
-      "title": "Ability to complete art projects as instructed",
-      "type": "line",
-      "config": {
-        "aggregation": "average",
-        "xAxis": {
-          "name": "Assessment Period",
-          "column": "2"
-        },
-        "yAxis": [
-          {
-            "name": "{{Student Name}}",
-            "column": "13",
-            "filters": [
-              {
-                "column": "1",
-                "operation": "=",
-                "value": "{{Student Name}}"
-              }
-            ]
-          },
-          {
-            "name": "Average",
-            "column": "13"
-          }
-        ]
-      }
-    },
-    {
-      "page": "4",
-      "section": "4",
-      "title": "Willingness to show and share artistic work done with others",
-      "type": "line",
-      "config": {
-        "aggregation": "average",
-        "xAxis": {
-          "name": "Assessment Period",
-          "column": "2"
-        },
-        "yAxis": [
-          {
-            "name": "{{Student Name}}",
-            "column": "14",
-            "filters": [
-              {
-                "column": "1",
-                "operation": "=",
-                "value": "{{Student Name}}"
-              }
-            ]
-          },
-          {
-            "name": "Average",
-            "column": "14"
-          }
-        ]
-      }
-    },
-    {
-      "page": "4",
-      "section": "4",
-      "title": "Willingness to experiment with art materials",
-      "type": "line",
-      "config": {
-        "aggregation": "average",
-        "xAxis": {
-          "name": "Assessment Period",
-          "column": "2"
-        },
-        "yAxis": [
-          {
-            "name": "{{Student Name}}",
-            "column": "15",
-            "filters": [
-              {
-                "column": "1",
-                "operation": "=",
-                "value": "{{Student Name}}"
-              }
-            ]
-          },
-          {
-            "name": "Average",
-            "column": "15"
-          }
-        ]
-      }
-    },
-    {
-      "page": "4",
-      "section": "4",
-      "title": "Ability to use abstraction in their works or titles",
-      "type": "line",
-      "config": {
-        "aggregation": "average",
-        "xAxis": {
-          "name": "Assessment Period",
-          "column": "2"
-        },
-        "yAxis": [
-          {
-            "name": "{{Student Name}}",
-            "column": "16",
-            "filters": [
-              {
-                "column": "1",
-                "operation": "=",
-                "value": "{{Student Name}}"
-              }
-            ]
-          },
-          {
-            "name": "Average",
-            "column": "16"
-          }
-        ]
-      }
-    },
-    {
-      "page": "4",
-      "section": "1",
-      "title": "SELF-EFFICACY",
-      "type": "bar",
-      "config": {
-        "type": "grouped",
-        "xAxis": {
-          "name": "Category",
-          "columns": [
-            "22",
-            "23",
-            "24",
-            "25",
-            "26"
-          ],
-          "datasetColumn": "2",
-          "filters": [
-            {
-              "column": "1",
-              "operation": "=",
-              "value": "{{Student Name}}"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "page": "4",
       "section": "2",
       "title": "Level of perseverance during difficult tasks",
       "type": "pie",
@@ -1194,33 +1071,6 @@
             "column": "26"
           }
         ]
-      }
-    },
-    {
-      "page": "5",
-      "section": "1",
-      "title": "SOCIAL INTERACTION SKILLS",
-      "type": "bar",
-      "config": {
-        "type": "grouped",
-        "xAxis": {
-          "name": "Category",
-          "columns": [
-            "17",
-            "18",
-            "19",
-            "20",
-            "21"
-          ],
-          "datasetColumn": "2",
-          "filters": [
-            {
-              "column": "1",
-              "operation": "=",
-              "value": "{{Student Name}}"
-            }
-          ]
-        }
       }
     },
     {
