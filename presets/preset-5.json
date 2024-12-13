@@ -55,7 +55,7 @@
   },
   "charts": [
     {
-      "page": "3",
+      "page": "5",
       "section": "1",
       "title": "SOCIAL INTERACTION SKILLS",
       "type": "bar",
@@ -82,7 +82,7 @@
       }
     },
     {
-      "page": "3",
+      "page": "5",
       "section": "2",
       "title": "Willingness to concentrate, listen and follow facilitator's instructions",
       "type": "pie",
@@ -99,7 +99,7 @@
       }
     },
     {
-      "page": "3",
+      "page": "5",
       "section": "2",
       "title": "Shows appreciation for others",
       "type": "pie",
@@ -116,7 +116,7 @@
       }
     },
     {
-      "page": "3",
+      "page": "5",
       "section": "2",
       "title": "Ability to interact with facilitators and others",
       "type": "pie",
@@ -133,7 +133,7 @@
       }
     },
     {
-      "page": "3",
+      "page": "5",
       "section": "3",
       "title": "Ability to demonstrate good problem solving skills in class",
       "type": "pie",
@@ -150,7 +150,7 @@
       }
     },
     {
-      "page": "3",
+      "page": "5",
       "section": "3",
       "title": "Willing to freely share tools and art materials with others",
       "type": "pie",
@@ -167,7 +167,7 @@
       }
     },
     {
-      "page": "3",
+      "page": "5",
       "section": "4",
       "title": "Willingness to concentrate, listen and follow facilitator's instructions",
       "type": "line",
@@ -197,7 +197,7 @@
       }
     },
     {
-      "page": "3",
+      "page": "5",
       "section": "4",
       "title": "Shows appreciation for others",
       "type": "line",
@@ -227,7 +227,7 @@
       }
     },
     {
-      "page": "3",
+      "page": "5",
       "section": "4",
       "title": "Ability to interact with facilitators and others",
       "type": "line",
@@ -257,7 +257,7 @@
       }
     },
     {
-      "page": "3",
+      "page": "5",
       "section": "4",
       "title": "Ability to demonstrate good problem solving skills in class",
       "type": "line",
@@ -287,7 +287,7 @@
       }
     },
     {
-      "page": "3",
+      "page": "5",
       "section": "4",
       "title": "Willing to freely share tools and art materials with others",
       "type": "line",
