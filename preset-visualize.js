@@ -18,7 +18,6 @@ const presetTitle = document.getElementById('presetTitle');
 const presetDescription = document.getElementById('presetDescription');
 
 const variablesSection = document.getElementById('variablesSection');
-
 const visualizeBtn = document.getElementById('visualizeBtn');
 
 const presets = [];
@@ -80,6 +79,8 @@ function displayVariables() {
     }
 
     variablesSection.style.display = 'block';
+    visualizeBtn.style.display = 'block';
+
     variablesSection.innerHTML = '';
 
     const variables = preset.variables;
@@ -138,6 +139,7 @@ function displayVariables() {
         },
         false
     );
+
 }
 
 let originalPreset
@@ -162,6 +164,9 @@ function displayPresets() {
 
 window.onload = async () => {
     const currentUrl = new URL(window.location.href);
+
+    variablesSection.style.display = 'none';
+    visualizeBtn.style.display = 'none';
 
     geminiApiKey = currentUrl.searchParams.get(GEMINI_API_KEY_QUERY_PARAM);
     if (geminiApiKey) {
@@ -215,11 +220,11 @@ document.getElementById('exportPDF').addEventListener('click', () => {
         const doc = new jsPDF();
         
         const charts = presetCharts.querySelectorAll('canvas');
-        const margin = 10;
         const pageHeight = 297; // A4 height in mm
         const pageWidth = 210; // A4 width in mm
+        const margin = 0.1 * pageWidth;
         const contentWidth = 0.8 * pageWidth;
-        const pieChartWidth = (contentWidth - 3 * margin) / 2;
+        const pieChartWidth = (contentWidth - margin) / 2;
         
         let yOffset = 40; // Start below the title
         let xOffset = margin;
@@ -256,7 +261,7 @@ document.getElementById('exportPDF').addEventListener('click', () => {
             if (isPieChart) {
                 xOffset += imgWidth + margin;    
                 // Prepare for next row if two pie charts are placed
-                if (xOffset + imgWidth > contentWidth) {
+                if (xOffset + imgWidth > pageWidth - margin) {
                     xOffset = margin;
                     verticalShift = true;
                 }
