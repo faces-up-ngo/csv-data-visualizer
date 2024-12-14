@@ -28,8 +28,6 @@ const GEMINI_API_KEY_QUERY_PARAM = 'gemini-api-key';
 
 let geminiApiKey;
 
-
-
 const loadNewGeminiTokenBtn = document.getElementById('loadNewGeminiTokenBtn');
 loadNewGeminiTokenBtn.addEventListener('click', () => {
     document.getElementById('geminiAPITokenInput').value = '';
@@ -210,7 +208,14 @@ async function fetchPreset(url) {
 }
 
 document.getElementById('exportPDF').addEventListener('click', () => {
-    const studentName = document.getElementById("Student Name").value;
+    
+    let studentName;
+    try {
+        studentName = document.getElementById('Student Name').value;
+    } catch (error) { // preset might not have student name variable
+        studentName = "Cohort";
+    }
+ 
     const presetCharts = document.getElementById('presetCharts');
     const presetDescription = document.querySelector('#presetDescription');
     const presetTitle = document.querySelector('#presetTitle');
@@ -231,6 +236,7 @@ document.getElementById('exportPDF').addEventListener('click', () => {
         let previousImgHeight = 0;
 
         doc.setFontSize(16);
+
         doc.text(`Development report for ${studentName}`, 105, 20, null, null, 'center');
         doc.text(presetDescription.innerText, 105, 30, null, null, 'center');
 
