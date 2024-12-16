@@ -6,6 +6,7 @@ const font_size_legend = 12;
 const font_size_label = 12;
 const font_size_tooltip = 18;
 
+const resetBtn = document.getElementById('resetBtn');
 const presetInput = document.getElementById('presetInput');
 const loadPresetDataBtn = document.getElementById('loadPresetDataBtn');
 const uploadPresetDataBtn = document.getElementById('uploadPresetDataBtn');
@@ -128,7 +129,7 @@ function displayVariables() {
             presetInput.value = JSON.stringify(parsedValue, null, 4);
             // save currently selected values
             let presetValue = presetSelectCopy.value;
-            let studentName = document.getElementById('Student Name').value;
+            let studentName = document.getElementById('Student Name') && document.getElementById('Student Name').value || "";
             // trigger data loading
             await document.getElementById('loadPresetDataBtn').click();
             // reset select values to current selection
@@ -143,7 +144,7 @@ function displayVariables() {
 let originalPreset
 presetSelect.addEventListener('change', (event) => {
     if (event.target.value === '-1') {
-        presetInput.value = '';
+        presetInput.value = '';loadPresetDataBtnloadPresetDataBtn
         return;
     }
     const parsedValue = JSON.parse(event.target.value);
@@ -1021,4 +1022,10 @@ uploadPresetDataBtn.addEventListener('click', () => {
         }
     };
     fileInput.click();
+});
+
+resetBtn.addEventListener('click', () => {
+    // keep API key
+    window.location = 'index.html' + document.location.search
+    return false;
 });
