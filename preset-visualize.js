@@ -128,7 +128,7 @@ function displayVariables() {
             presetInput.value = JSON.stringify(parsedValue, null, 4);
             // save currently selected values
             let presetValue = presetSelectCopy.value;
-            let studentName = document.getElementById('Student Name').value;
+            let studentName = document.getElementById('Student Name') && document.getElementById('Student Name').value || "";
             // trigger data loading
             await document.getElementById('loadPresetDataBtn').click();
             // reset select values to current selection
