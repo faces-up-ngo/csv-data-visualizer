@@ -52,14 +52,14 @@
         <a href="https://www.facesup.org" target="_blank"><img class="logo" src="image/logo.png" height="60"/></a>
         <h1 class="title text-4xl font-bold text-center my-4">Participant Progress Assessment Visualizer</h1>
         <div class="buttons text-right p-7">
-            <a href="index.html" class="rounded text-white bg-blue-500 p-3">Reset selection</a>
+            <a id="resetBtn" href="#" class="rounded text-white bg-blue-500 p-3">Reset selection</a>
             <a href="compose.html" class="rounded text-white bg-blue-500 p-3">Create new preset</a>
         </div>
     </div>
 
     <div id="container" class="max-w-screen-2xl w-9/10 mx-auto bg-white p-8 m-8 rounded-lg shadow-lg">
         <div id="dataLoadingSection">
-            <h3 id="loadDataTitle" class="text-xl font-semibold text-center text-blue-500 mb-4">Gemini API Token For AI
+            <h3 id="loadTokenTitle" class="text-xl font-semibold text-center text-blue-500 mb-4">Gemini API Token For AI
                 Insights</h3>
             <section id="geminiAPIToken">
                 <input id="geminiAPITokenInput" type="password" class="w-full p-4 border border-gray-300 rounded mb-4"
@@ -75,7 +75,7 @@
                 <button id="loadNewGeminiTokenBtn" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Load new token</button>
             </section>
 
-            <h3 id="loadDataTitle" class="text-xl font-semibold text-center text-blue-500 mb-4">Load Preset</h3>
+            <h3 id="loadPresetTitle" class="text-xl font-semibold text-center text-blue-500 mb-4">Load Preset</h3>
             <section id="presetDataUpload">
                 <label for="presetSelect" class="text-lg font-medium text-gray-700">Choose predefined
                     presets</label>
